@@ -11,7 +11,6 @@ app.set('view engine', handlebars({ defaultLayout: 'main' }))
 // use helpers.getUser(req) to replace req.user
 // use helpers.ensureAuthenticated(req) to replace req.isAuthenticated()
 
-app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => {
   // app 啟動時，顯示當前 NODE_ENV
   const mode = process.env.NODE_ENV || 'development'
