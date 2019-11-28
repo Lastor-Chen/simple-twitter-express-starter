@@ -5,8 +5,8 @@ const handlebars = require('express-handlebars')
 const app = express()
 const port = 3000
 
-app.engine('handlebars', handlebars())
-app.set('view engine', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.set('view engine', 'handlebars')
 
 // use helpers.getUser(req) to replace req.user
 // use helpers.ensureAuthenticated(req) to replace req.isAuthenticated()
@@ -18,4 +18,4 @@ app.listen(port, () => {
   console.log(`[App] Example app listening on port ${port}!`)
 })
 
-module.exports = app
+require('./routes')(app)
