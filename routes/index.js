@@ -1,10 +1,10 @@
-const tweetsController = require('../controllers/tweetsController')
-const userController = require('../controllers/userController.js')
+const weetsCtrller = require('../controllers/tweetsCtrller')
+const userCtrller = require('../controllers/userCtrller.js')
 
 module.exports = app => {
   app.get('/', (req, res) => res.redirect('/tweets'))
-  app.get('/tweets', tweetsController.getTweets)
+  app.get('/tweets', weetsCtrller.getTweets)
 
-  app.get('/signup', userController.signUpPage)
-  app.post('/signup', userController.signUp)
+  app.get('/signup', userCtrller.signUpPage)
+  app.post('/signup', userCtrller.signUp)
 }
