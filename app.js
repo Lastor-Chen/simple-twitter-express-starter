@@ -1,14 +1,17 @@
 const express = require('express')
 const helpers = require('./_helpers');
-const handlebars = require('express-handlebars')
+const exphbs = require('express-handlebars')
 const db = require('./models')
 const bodyParser = require('body-parser')
 
 const app = express()
 const port = 3000
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
+app.engine('hbs', exphbs({
+  defaultLayout: 'main',
+  extname: 'hbs'
+}))
+app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -22,4 +25,5 @@ app.listen(port, () => {
   console.log(`[App] Example app listening on port ${port}!`)
 })
 
+module.exports = app
 require('./routes')(app)
