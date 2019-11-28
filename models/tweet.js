@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   Tweet.associate = function(models) {
+    Tweet.belongsTo(models.User)
   };
   return Tweet;
 };
