@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
 
-const userController = {
+module.exports = {
   signUpPage: (req, res) => {
-    return res.render('signup')
+    res.render('signup')
   },
 
   signUp: (req, res) => {
@@ -15,9 +15,8 @@ const userController = {
       password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null),
       introduction: req.body.introduction
     }).then(user => {
-      return res.redirect('/signin')
+      res.redirect('/signin')
     })
   }
 }
 
-module.exports = userController
