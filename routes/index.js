@@ -1,8 +1,6 @@
-let users = require('./users')
-let tweets = require('./tweets')
+const tweetsController = require('../controllers/tweetsController')
 
-module.exports = (app) => {
-  app.use('/', (req, res) => res.redirect('/tweets'))
-  app.use('/tweets', tweets)
-  app.use('/users', users)
+module.exports = app => {
+  app.get('/', (req, res) => res.redirect('/tweets'))
+  app.get('/tweets', tweetsController.getTweets)
 }
