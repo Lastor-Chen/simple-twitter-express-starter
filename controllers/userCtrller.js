@@ -8,7 +8,6 @@ module.exports = {
   },
 
   signUp: (req, res) => {
-
     User.create({
       name: req.body.name,
       email: req.body.email,
