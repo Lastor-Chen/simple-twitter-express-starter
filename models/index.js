@@ -15,6 +15,13 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+// 檢查 database 連線，console 訊息
+if (process.env.NODE_ENV !== 'test') {
+  sequelize.authenticate()
+    .then(() => console.log('Database connection has been established successfully.'))
+    .catch(err => console.error(err.toString()))
+}
+
 fs
   .readdirSync(__dirname)
   .filter(file => {
