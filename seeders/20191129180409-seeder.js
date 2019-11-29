@@ -9,6 +9,7 @@ module.exports = {
       { email: 'user1@example.com', role: "User", name: "user1" },
       { email: 'user2@example.com', role: "User", name: "user2" }
     ]
+    const followship = [[1, 2], [1, 3], [2, 1]]
 
     return Promise.all([
       queryInterface.bulkInsert('Users',
@@ -48,6 +49,14 @@ module.exports = {
           updatedAt: new Date()
         }))
       ),
+      queryInterface.bulkInsert('Followships',
+        followship.map(item => ({
+          followerId: item[0],
+          followingId: item[1],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }))
+      )
     ])
   },
 
@@ -57,6 +66,7 @@ module.exports = {
       queryInterface.bulkDelete('Tweets', null, {}),
       queryInterface.bulkDelete('Replies', null, {}),
       queryInterface.bulkDelete('Likes', null, {}),
+      queryInterface.bulkDelete('Followships', null, {})
     ])
   }
 };
