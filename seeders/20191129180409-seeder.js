@@ -30,6 +30,15 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date()
         }))
+      ),
+      queryInterface.bulkInsert('Replies',
+        Array.from({ length: 30 }).map((item, index) => ({
+          UserId: Math.floor(Math.random() * 3) + 1,
+          TweetId: Math.floor(Math.random() * 20) + 1,
+          comment: faker.lorem.sentence(10),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }))
       )
     ])
   },
@@ -37,7 +46,8 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.bulkDelete('Users', null, {}),
-      queryInterface.bulkDelete('Tweets', null, {})
+      queryInterface.bulkDelete('Tweets', null, {}),
+      queryInterface.bulkDelete('Replies', null, {}),
     ])
   }
 };
