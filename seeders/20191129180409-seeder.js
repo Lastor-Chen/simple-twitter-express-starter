@@ -22,13 +22,22 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date()
         }))
+      ),
+      queryInterface.bulkInsert('Tweets',
+        Array.from({ length: 20 }).map((item, index) => ({
+          UserId: Math.floor(Math.random() * 3) + 1,
+          description: faker.lorem.sentence(30),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }))
       )
     ])
   },
 
   down: (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.bulkDelete('Users', null, {})
+      queryInterface.bulkDelete('Users', null, {}),
+      queryInterface.bulkDelete('Tweets', null, {})
     ])
   }
 };
