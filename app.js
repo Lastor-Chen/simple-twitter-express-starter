@@ -3,8 +3,10 @@ const helpers = require('./_helpers');
 const exphbs = require('express-handlebars')
 const db = require('./models')
 const bodyParser = require('body-parser')
+const passport = require('./config/passport')
 const flash = require('connect-flash')
 const session = require('express-session')
+
 
 const app = express()
 const port = 3000
@@ -16,6 +18,9 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(session({ secret: 'LastWendyTomatoBurger', resave: false, saveUninitialized: false }))
 app.use(flash())
@@ -36,4 +41,4 @@ app.listen(port, () => {
 })
 
 module.exports = app
-require('./routes')(app)
+require('./routes')(app, passport)
