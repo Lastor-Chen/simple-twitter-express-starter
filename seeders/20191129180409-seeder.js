@@ -39,7 +39,15 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date()
         }))
-      )
+      ),
+      queryInterface.bulkInsert('Likes',
+        Array.from({ length: 10 }).map((item, index) => ({
+          UserId: Math.floor(Math.random() * 3) + 1,
+          TweetId: ++index,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }))
+      ),
     ])
   },
 
@@ -48,6 +56,7 @@ module.exports = {
       queryInterface.bulkDelete('Users', null, {}),
       queryInterface.bulkDelete('Tweets', null, {}),
       queryInterface.bulkDelete('Replies', null, {}),
+      queryInterface.bulkDelete('Likes', null, {}),
     ])
   }
 };
