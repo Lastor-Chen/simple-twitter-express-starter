@@ -45,12 +45,14 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
+    const option = { truncate: true, restartIdentity: true }
+
     return Promise.all([
-      queryInterface.bulkDelete('Users', null, {}),
-      queryInterface.bulkDelete('Tweets', null, {}),
-      queryInterface.bulkDelete('Replies', null, {}),
-      queryInterface.bulkDelete('Likes', null, {}),
-      queryInterface.bulkDelete('Followships', null, {})
+      queryInterface.bulkDelete('Users', null, option),
+      queryInterface.bulkDelete('Tweets', null, option),
+      queryInterface.bulkDelete('Replies', null, option),
+      queryInterface.bulkDelete('Likes', null, option),
+      queryInterface.bulkDelete('Followships', null, option)
     ])
   }
 };
