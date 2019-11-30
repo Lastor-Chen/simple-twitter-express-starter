@@ -19,9 +19,7 @@ module.exports = {
           password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
           avatar: faker.image.imageUrl(),
           introduction: faker.lorem.sentence(10),
-          role: item.role,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          role: item.role
         }))
       ),
       queryInterface.bulkInsert('Tweets',
