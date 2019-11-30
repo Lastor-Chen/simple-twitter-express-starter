@@ -9,26 +9,27 @@ module.exports = {
 
   signUp: (req, res) => {
     if (req.body.passwordCheck !== req.body.password) {
-      req.flash('error_messages', '兩次密碼不一致，請重新檢查')
+      req.flash('error', '兩次密碼不一致，請重新檢查')
       return res.redirect('/signup')
-    } else {
-      User.findOne({ where: { email: req.body.email } }).then(user => {
-        if (user) {
-          req.flash('error_messages', '信箱已被其他使用者註冊')
-          return res.redirect('/signup')
-        } else {
-          User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null),
-            introduction: req.body.introduction
-          }).then(user => {
-            req.flash('success_messages', '已成功註冊帳號')
-            return res.redirect('/signin')
-          })
-        }
-      })
     }
+    User.findOne({ where: { email: req.body.email } }).then(user => {
+      if (user) {
+        req.flash('error', '信箱已被其他使用者註冊')
+        return res.redirect('/signup')
+      }
+
+      const input = { ...req.body }  // 深拷貝，保護原始資料
+      input.password = bcrypt.hashSync(input.password, bcrypt.genSaltSync(10), null)
+      User.create(input)
+        .then(user => {
+          req.flash('success', '已成功註冊帳號')
+          return res.redirect('/signin')
+        })
+        .catch(err => {
+          console.error(err.toString())
+          res.status(500).json({ status: 'serverError', message: err.toString() })
+        })
+    })
   },
 
   signInPage: (req, res) => {
