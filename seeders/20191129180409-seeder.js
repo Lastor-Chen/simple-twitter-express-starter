@@ -17,9 +17,9 @@ module.exports = {
         }))
       ),
       queryInterface.bulkInsert('Tweets',
-        Array.from({ length: 20 }).map((item, index) => ({
-          UserId: Math.floor(Math.random() * 3) + 1,
-          description: faker.lorem.sentence(30)
+        Array.from({ length: 30 }, (val, index) => ({
+          UserId: Math.floor(Math.random() * 5) + 1,
+          description: faker.lorem.lines(3),
         }))
       ),
       queryInterface.bulkInsert('Replies',
