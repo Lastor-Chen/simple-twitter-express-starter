@@ -30,9 +30,9 @@ module.exports = {
         }))
       ),
       queryInterface.bulkInsert('Likes',
-        Array.from({ length: 10 }).map((item, index) => ({
-          UserId: Math.floor(Math.random() * 3) + 1,
-          TweetId: ++index,
+        Array.from({ length: 10 }, (val, index) => ({
+          UserId: ++index,
+          TweetId: Math.floor(Math.random() * 6) + 5
         }))
       ),
       queryInterface.bulkInsert('Followships',
