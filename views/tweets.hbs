@@ -10,47 +10,61 @@
         </div>
       </form>
     </section>
+    {{!-- tweets --}}
     <div class="border mt-3">
-      <article>
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row no-gutters">
-            <div class="col-md-4 border">
-              <img src="..." class="card-img" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">
-                  @user,
-                  2019-11-29,
-                  02:30
-                </h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                  This content is a little bit longer.</p>
-                <a href="#">Reply(0)</a>
-                <a href="#">Like(0)</a>
+      {{#each tweets}}
+        <article>
+          <div class="card mb-3">
+            <div class="row no-gutters">
+              <div class="col-md-4 border">
+                <a href="/users/{{User.id}}/tweets">
+                  <img src="{{User.avatar}}" class="card-img" alt="avatar">
+                </a>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="/users/{{User.id}}/tweets">@{{User.name}}, {{date}}, {{time}}</a>
+                  </h5>
+                  <p class="card-text">{{description}}</p>
+                  <div class="d-flex align-items-center">
+                    <a href="/tweets/{{id}}/replies">Reply({{countReplies}})</a>
+                    <form action="/tweets/{{id}}/like" method="POST" class="d-inline-block">
+                      <button type="submit" class="btn btn-link">Like({{countLikes}})</button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      {{/each}}
     </div>
   </main>
+  {{!-- popular users --}}
   <aside class="col-4 border">
     <h3>Popular</h3>
-    <div class="card mb-3" style="max-width: 540px;">
-      <div class="row no-gutters">
-        <div class="col-md-4 border">
-          <img src="..." class="card-img" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">@user</h5>
-            <p class="card-text">This is a wider card with supporting text.</p>
-            <a href="#">Reply(0)</a>
-            <a href="#">Like(0)</a>
+    {{#each users}}
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-4 border">
+            <a href="/users/{{id}}/tweets">
+              <img src="{{avatar}}" class="card-img" alt="avatar">
+            </a>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="/users/{{id}}/tweets">@{{name}}</a>
+              </h5>
+              <p class="card-text">{{introduction}}</p>
+              <form action="/followships" method="POST" class="text-right">
+                <button type="submit" class="btn btn-primary">Follow</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    {{/each}}
   </aside>
 </div>
