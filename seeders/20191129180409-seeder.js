@@ -33,8 +33,6 @@ module.exports = {
           UserId: Math.floor(Math.random() * 3) + 1,
           TweetId: Math.floor(Math.random() * 20) + 1,
           comment: faker.lorem.sentence(10),
-          createdAt: new Date(),
-          updatedAt: new Date()
         }))
       ),
       queryInterface.bulkInsert('Likes',
