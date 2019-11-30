@@ -2,43 +2,46 @@
 const bcrypt = require('bcryptjs')
 const faker = require('faker')
 
+function randomNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-
     return Promise.all([
       queryInterface.bulkInsert('Users',
         Array.from({ length: 20 }, (val, index) => ({
-          name: 'root',
+          name: index === 0 ? 'root' : faker.name.findName(),
           email: index === 0 ? 'root@example.com' : `user${index}@example.com`,
-          password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+          password: bcrypt.hashSync('12345678', 10),
           avatar: faker.image.avatar(),
           introduction: faker.lorem.lines(3),
           role: index === 0 ? 'admin' : ''
         }))
       ),
       queryInterface.bulkInsert('Tweets',
-        Array.from({ length: 30 }, (val, index) => ({
-          UserId: Math.floor(Math.random() * 5) + 1,
+        Array.from({ length: 30 }, () => ({
+          UserId: randomNum(1, 5),
           description: faker.lorem.lines(3),
         }))
       ),
       queryInterface.bulkInsert('Replies',
-        Array.from({ length: 30 }, (val, index) => ({
-          UserId: Math.floor(Math.random() * 10) + 1,
-          TweetId: Math.floor(Math.random() * 6) + 5,
+        Array.from({ length: 30 }, () => ({
+          UserId: randomNum(1, 10),
+          TweetId: randomNum(20, 30),
           comment: faker.lorem.lines(3),
         }))
       ),
       queryInterface.bulkInsert('Likes',
         Array.from({ length: 10 }, (val, index) => ({
           UserId: ++index,
-          TweetId: Math.floor(Math.random() * 6) + 5
+          TweetId: randomNum(25, 30)
         }))
       ),
       queryInterface.bulkInsert('Followships',
         Array.from({ length: 10 }, (val, index) => ({
           followerId: ++index,   // 取 id 前10
-          followingId: Math.floor(Math.random() * (5)) + 11  // 取id 11-15，避開id 1-10，避免follow自己
+          followingId: randomNum(11, 15)  // 取id 11-15，避開id 1-10，避免follow自己
         }))
       )
     ])
