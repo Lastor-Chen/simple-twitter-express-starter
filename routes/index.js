@@ -2,15 +2,17 @@ const tweetsCtrller = require('../controllers/tweetsCtrller')
 const userCtrller = require('../controllers/userCtrller.js')
 const adminTweetsCtrller = require('../controllers/adminTweetsCtrller')
 
-const { authenticated } = require('../middleware/auth')
-const { authenticatedAdmin } = require('../middleware/auth')
+const { isAuth, isAdminAuth } = require('../middleware/auth')
 
 module.exports = (app, passport) => {
-  app.get('/', authenticated, (req, res) => res.redirect('/tweets'))
-  app.get('/tweets', authenticated, tweetsCtrller.getTweets)
+  app.get('/', isAuth, (req, res) => res.redirect('/tweets'))
 
-  app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/tweets'))
-  app.get('/admin/tweets', authenticatedAdmin, adminTweetsCtrller.getTweets)
+  app.use('/tweets', isAuth)
+  app.get('/tweets', tweetsCtrller.getTweets)
+
+  app.use('/tweets', isAdminAuth)
+  app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
+  app.get('/admin/tweets', adminTweetsCtrller.getTweets)
 
   app.get('/signup', userCtrller.signUpPage)
   app.post('/signup', userCtrller.signUp)
