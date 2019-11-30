@@ -36,9 +36,9 @@ module.exports = {
         }))
       ),
       queryInterface.bulkInsert('Followships',
-        followship.map(item => ({
-          followerId: item[0],
-          followingId: item[1],
+        Array.from({ length: 10 }, (val, index) => ({
+          followerId: ++index,   // 取 id 前10
+          followingId: Math.floor(Math.random() * (5)) + 11  // 取id 11-15，避開id 1-10，避免follow自己
         }))
       )
     ])
