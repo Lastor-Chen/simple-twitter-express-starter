@@ -1,25 +1,19 @@
 'use strict';
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcryptjs')
 const faker = require('faker')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const users = [
-      { email: 'root@example.com', role: "Admin", name: "root" },
-      { email: 'user1@example.com', role: "User", name: "user1" },
-      { email: 'user2@example.com', role: "User", name: "user2" }
-    ]
-    const followship = [[1, 2], [1, 3], [2, 1]]
 
     return Promise.all([
       queryInterface.bulkInsert('Users',
-        users.map((item, index) => ({
-          name: item.name,
-          email: item.email,
+        Array.from({ length: 20 }, (val, index) => ({
+          name: 'root',
+          email: index === 0 ? 'root@example.com' : `user${index}@example.com`,
           password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
-          avatar: faker.image.imageUrl(),
-          introduction: faker.lorem.sentence(10),
-          role: item.role
+          avatar: faker.image.avatar(),
+          introduction: faker.lorem.lines(3),
+          role: index === 0 ? 'admin' : ''
         }))
       ),
       queryInterface.bulkInsert('Tweets',
