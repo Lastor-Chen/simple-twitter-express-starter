@@ -39,8 +39,6 @@ module.exports = {
         Array.from({ length: 10 }).map((item, index) => ({
           UserId: Math.floor(Math.random() * 3) + 1,
           TweetId: ++index,
-          createdAt: new Date(),
-          updatedAt: new Date()
         }))
       ),
       queryInterface.bulkInsert('Followships',
