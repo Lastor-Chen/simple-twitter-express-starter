@@ -45,8 +45,6 @@ module.exports = {
         followship.map(item => ({
           followerId: item[0],
           followingId: item[1],
-          createdAt: new Date(),
-          updatedAt: new Date()
         }))
       )
     ])
