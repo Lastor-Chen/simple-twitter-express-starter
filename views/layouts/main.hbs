@@ -18,25 +18,25 @@
     </a>
     <div>
       {{#if user.role}}
-        <a href="/admin" style="color: white;margin-right: 10px;">Admin 後台</a>
+        <a href="/admin" class="text-decoration-none text-light mr-2">Admin 後台</a>
       {{/if}}
       {{#if user}}
-        <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
-        <a href="/users/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
+        <span class="text-light mr-2">Hi, {{user.name}}</span>
+        <a href="/users/{{user.id}}" class="text-decoration-none text-light mr-2">Profile</a>
         <a href="/logout"><button class="btn btn-outline-light my-sm-0">LogOut</button></a>
       {{/if}}
     </div>
     </div>
   </nav>
   <div class="container">
-    {{#if success_messages}}
+    {{#if success}}
       <div class="alert alert-success" role="alert" style="margin: 30px 0 ;">
-        {{success_messages}}
+        {{success}}
       </div>
     {{/if}}
-    {{#if error_messages}}
+    {{#if error}}
       <div class="alert alert-danger" role="alert" style="margin: 30px 0 ;">
-        {{error_messages}}
+        {{error}}
       </div>
     {{/if}}
     {{{body}}}
