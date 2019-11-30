@@ -25,9 +25,7 @@ module.exports = {
       queryInterface.bulkInsert('Tweets',
         Array.from({ length: 20 }).map((item, index) => ({
           UserId: Math.floor(Math.random() * 3) + 1,
-          description: faker.lorem.sentence(30),
-          createdAt: new Date(),
-          updatedAt: new Date()
+          description: faker.lorem.sentence(30)
         }))
       ),
       queryInterface.bulkInsert('Replies',
