@@ -23,10 +23,10 @@ module.exports = {
         }))
       ),
       queryInterface.bulkInsert('Replies',
-        Array.from({ length: 30 }).map((item, index) => ({
-          UserId: Math.floor(Math.random() * 3) + 1,
-          TweetId: Math.floor(Math.random() * 20) + 1,
-          comment: faker.lorem.sentence(10),
+        Array.from({ length: 30 }, (val, index) => ({
+          UserId: Math.floor(Math.random() * 10) + 1,
+          TweetId: Math.floor(Math.random() * 6) + 5,
+          comment: faker.lorem.lines(3),
         }))
       ),
       queryInterface.bulkInsert('Likes',
