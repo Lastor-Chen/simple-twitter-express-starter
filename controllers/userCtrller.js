@@ -36,12 +36,12 @@ module.exports = {
   },
 
   signIn: (req, res) => {
-    req.flash('success_messages', '成功登入！')
+    req.flash('success', '成功登入！')
     res.redirect('/tweets')
   },
 
   logout: (req, res) => {
-    req.flash('success_messages', '登出成功！')
+    req.flash('success', '登出成功！')
     req.logout()
     res.redirect('/signin')
   }
