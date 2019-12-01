@@ -7,11 +7,10 @@ const User = db.User
 passport.use(new LocalStrategy(
   {
     usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true
+    passwordField: 'password'
   },
 
-  (req, email, password, done) => {
+  (email, password, done) => {
     User.findOne({ where: { email } })
       .then(user => {
         if (!user) return done(null, false, { message: '帳號或密碼輸入錯誤' })
