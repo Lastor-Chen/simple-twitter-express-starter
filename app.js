@@ -18,13 +18,12 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(express.static('public'))
 app.use(session({
   secret: 'LastWendyTomatoBurger',
   resave: false,
   saveUninitialized: false
 }))
-
 app.use(passport.initialize())
 app.use(passport.session())
 
