@@ -1,20 +1,17 @@
-const helpers = require('../_helpers')
+const { ensureAuthenticated } = require('../_helpers')
 
 module.exports = {
   isAuth: (req, res, next) => {
-    if (helpers.ensureAuthenticated(req)) {
-      return next()
-    }
-    res.redirect('/signin')
+    if (!ensureAuthenticated(req)) return res.redirect('/signin')
+    next()
   },
 
   isAdminAuth: (req, res, next) => {
-    if (helpers.ensureAuthenticated(req)) {
-      if (req.user.role === 'Admin') { return next() }
-      return res.redirect('/')
-    }
-    res.redirect('/signin')
+    // 確認登入狀態
+    if (!ensureAuthenticated(req)) return res.redirect('/signin')
+    
+    // 確認用戶權限
+    if (req.user.role !== 'admin') return res.redirect('/tweets')
+    next()
   }
-
 }
-
