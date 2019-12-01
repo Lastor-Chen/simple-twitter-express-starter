@@ -34,9 +34,14 @@ module.exports = {
     return res.render('signin')
   },
 
-  signIn: (req, res) => {
-    req.flash('success', '成功登入！')
-    res.redirect('/tweets')
+  signIn: (passport, req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect: '/tweets',
+      successFlash: true,
+      failureRedirect: '/signin', 
+      failureFlash: true,
+      badRequestMessage: '請輸入 Email 與 Passport'
+    })(req, res, next)
   },
 
   logout: (req, res) => {
