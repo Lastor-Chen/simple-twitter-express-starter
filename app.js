@@ -1,11 +1,13 @@
 const express = require('express')
 const helpers = require('./_helpers');
 const exphbs = require('express-handlebars')
-const db = require('./models')
-const bodyParser = require('body-parser')
+const passport = require('./config/passport')
+const flash = require('connect-flash')
+const session = require('express-session')
 
+// ======================================
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
@@ -13,7 +15,23 @@ app.engine('hbs', exphbs({
 }))
 app.set('view engine', 'hbs')
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
+app.use(session({
+  secret: 'LastWendyTomatoBurger',
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(flash())
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success')
+  res.locals.error = req.flash('error')
+  res.locals.user = helpers.getUser(req)
+  next()
+})
 
 // use helpers.getUser(req) to replace req.user
 // use helpers.ensureAuthenticated(req) to replace req.isAuthenticated()
@@ -26,4 +44,4 @@ app.listen(port, () => {
 })
 
 module.exports = app
-require('./routes')(app)
+require('./routes')(app, passport)

@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Simple Twitter</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <title>Simple Twitter</title>
 </head>
 
 <body>
@@ -16,8 +17,24 @@
     <a class="navbar-brand" href="/tweets">
       <i class="fab fa-twitter"></i> Twitter
     </a>
+    <div>
+      {{#if user.role}}
+        <a href="/admin" class="text-decoration-none text-light mr-2">Admin 後台</a>
+      {{/if}}
+      {{#if user}}
+        <span class="text-light mr-2">Hi, {{user.name}}</span>
+        <a href="/users/{{user.id}}" class="text-decoration-none text-light mr-2">Profile</a>
+        <a href="/logout"><button class="btn btn-outline-light my-sm-0">LogOut</button></a>
+      {{/if}}
+    </div>
+    </div>
   </nav>
   <div class="container">
+    {{!-- alert flash msg --}}
+    <div class="position-relative">
+      <span>&nbsp;</span>
+      {{> alert}}
+    </div>
     {{{body}}}
   </div>
   <!-- included script -->
