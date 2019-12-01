@@ -38,7 +38,7 @@ module.exports = {
     passport.authenticate('local', {
       successRedirect: '/tweets',
       successFlash: true,
-      failureRedirect: '/signin', 
+      failureRedirect: '/signin',
       failureFlash: true,
       badRequestMessage: '請輸入 Email 與 Passport'
     })(req, res, next)
@@ -48,5 +48,9 @@ module.exports = {
     req.flash('success', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+
+  getUser: (req, res) => {
+    res.render('user')
   }
 }

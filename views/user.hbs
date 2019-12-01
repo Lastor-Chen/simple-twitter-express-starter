@@ -1,0 +1,65 @@
+<div class="row mt-4 no-gutters">
+  {{!-- user profile --}}
+  <aside class="col-4 ">
+    <div class="row mt-3">
+      <div class="card col-8">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/users/:id/tweets">username</a>
+          </h5>
+          <p class="card-text">Reiciendis nobis quos quia.
+            Magni et earum culpa ipsam hic molestiae.
+            Est enim perferendis ut voluptas repellat.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a href="/users/:id/tweets">Tweets 32</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/:id/followings">Following 14</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/:id/follower">Follower 10</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/:id/follower">Like 23</a>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="/users/:id/edit" class="btn btn-primary">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+  {{!-- tweets --}}
+  <main class="col-8 ">
+    <div class=" mt-3">
+      <article>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4 ">
+              <img src="..." class="card-img" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="/users/:id/tweets">@username, 2019-12-01, 02:31</a>
+                </h5>
+                <p class="card-text">Libero velit aut voluptate autem.
+                  Et ipsum ut voluptates voluptas.
+                  A sapiente dignissimos.</p>
+                <div class="d-flex align-items-center">
+                  <a href="/tweets/:id/replies">Reply(2)</a>
+                  <form action="/tweets/:id/like" method="POST" class="d-inline-block">
+                    <button type="submit" class="btn btn-link">Like(17)</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
