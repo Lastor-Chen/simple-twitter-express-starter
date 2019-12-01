@@ -16,7 +16,7 @@ module.exports = {
 
       // check input
       const error = await checkSignUp(input)
-      if (error) return res.render('signup', { error })
+      if (error) return res.render('signup', { error, input })
 
       input.password = bcrypt.hashSync(input.password, 10)
       await User.create(input)
