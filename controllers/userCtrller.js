@@ -76,7 +76,7 @@ module.exports = {
         tweet.countLikes = tweet.Likes.length
       });
 
-      return res.render('user', { user, tweets })
+      return res.render('user', { user, tweets, profileId: req.user.id })
     }
     catch (err) {
       console.error(err.toString())

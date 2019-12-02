@@ -25,7 +25,13 @@
           </li>
         </ul>
         <div class="card-body">
+          {{#ifCond profileId user.id}}
           <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit Profile</a>
+          {{else}}
+          <form action="/followships" method="POST">
+            <button type="submit" class="btn btn-primary">Follow</button>
+          </form>
+          {{/ifCond}}
         </div>
       </div>
     </div>
