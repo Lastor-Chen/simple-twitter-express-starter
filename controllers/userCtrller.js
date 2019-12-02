@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const User = db.User
+const { User, Tweet, Like, Reply, Followship } = db
 
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
@@ -50,7 +50,37 @@ module.exports = {
     res.redirect('/signin')
   },
 
-  getUser: (req, res) => {
-    res.render('user')
+  getUser: async (req, res) => {
+    try {
+      const user = await User.findByPk(req.params.id, {
+        include: [
+          {
+            model: Tweet,
+            include: [
+              { model: Reply },
+              { model: Like }
+            ]
+          },
+          { model: Like },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+        ],
+        order: [[{ model: Tweet }, 'createdAt', 'DESC']]
+      })
+
+      const tweets = user.Tweets
+      tweets.forEach(tweet => {
+        tweet.date = tweet.createdAt.toLocaleDateString()
+        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
+        tweet.countReplies = tweet.Replies.length
+        tweet.countLikes = tweet.Likes.length
+      });
+
+      return res.render('user', { user, tweets })
+    }
+    catch (err) {
+      console.error(err.toString())
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
   }
 }
