@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const { User, Tweet, Like, Reply, Followship } = db
+const { User, Tweet, Reply } = db
 
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
@@ -54,8 +54,8 @@ module.exports = {
     try {
       const showedUser = await User.findByPk(req.params.id, {
         include: [
-          Like, 'Followers', 'Followings',
-          { model: Tweet, include: [Reply, Like] },
+          'LikedTweets', 'Followers', 'Followings',
+          { model: Tweet, include: [Reply, 'LikedUsers'] },
         ],
         order: [[Tweet, 'id', 'DESC']]
       })
@@ -65,13 +65,13 @@ module.exports = {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
         tweet.countReplies = tweet.Replies.length
-        tweet.countLikes = tweet.Likes.length
+        tweet.countLikes = tweet.LikedUsers.length
       });
 
       return res.render('user', { showedUser, tweets, profileId: req.user.id })
     }
     catch (err) {
-      console.error(err.toString())
+      console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
   }
