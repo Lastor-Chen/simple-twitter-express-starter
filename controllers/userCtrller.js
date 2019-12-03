@@ -66,7 +66,7 @@ module.exports = {
       res.redirect('back')
 
     } catch (err) {
-      console.log(err.toString())
+      console.log(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
   },

@@ -11,7 +11,7 @@ module.exports = {
           include: [{ all: true }] }),
         User.findAll({ 
           order: [['id', 'ASC']],
-          include: [{ all: true }]
+          include: 'Followers'
         })
       ]) 
 
@@ -21,6 +21,11 @@ module.exports = {
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.Likes.length
+      })
+
+      users.forEach(user => {
+        user.isFollowing = req.user.Followings.some(following => user.id === following.id)
+        user.isSelf = (user.id === req.user.id)
       })
 
       res.render('tweets', { tweets, users })
