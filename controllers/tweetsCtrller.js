@@ -1,6 +1,8 @@
 const db = require('../models')
-const Tweet = db.Tweet
-const User = db.User
+const { Tweet, User, Like } = db
+
+// custom module
+const helpers = require('../_helpers.js')
 
 module.exports = {
   getTweets: async (req, res) => {
@@ -27,6 +29,41 @@ module.exports = {
 
     } catch (err) {
       console.error(err.toString())
+      res.status(500).json(err.toString())
+    }
+  },
+
+  like: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      await Like.create({ 
+        UserId: user.id, 
+        TweetId: req.params.id
+      })
+
+      res.redirect('back')
+
+    } catch (err) {
+      console.error(err)
+      res.status(500).json(err.toString())
+    }
+  },
+  
+  unlike: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      const like = await Like.findOne({
+        where: {
+          UserId: user.id,
+          TweetId: req.params.id
+        }
+      })
+
+      await like.destroy()
+      res.redirect('back')
+
+    } catch (err) {
+      console.error(err)
       res.status(500).json(err.toString())
     }
   }
