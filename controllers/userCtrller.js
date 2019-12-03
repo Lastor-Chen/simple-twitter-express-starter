@@ -18,6 +18,7 @@ module.exports = {
       const error = await checkSignUp(input)
       if (error) return res.render('signup', { error, input })
 
+      input.avatar = 'https://i.imgur.com/Dg08MC8.png'
       input.password = bcrypt.hashSync(input.password, 10)
       await User.create(input)
 
