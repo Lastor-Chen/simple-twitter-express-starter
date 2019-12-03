@@ -1,7 +1,10 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const helpers = require('../_helpers')
-const fs = require('fs')
+
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+
 const User = db.User
 
 // custom module
@@ -74,24 +77,22 @@ module.exports = {
 
     const { file } = req
     if (file) {
-      fs.readFile(file.path, (err, data) => {
-        if (err) console.log('Error: ', err)
-        fs.writeFile(`upload/${file.originalname}`, data, () => {
-          return User.findByPk(req.params.id)
-            .then((user) => {
-              user.update({
-                name: req.body.name,
-                email: user.email,
-                password: user.password,
-                avatar: file ? `/upload/${file.originalname}` : user.image,
-                introduction: req.body.introduction,
-                role: user.role
-              }).then((user) => {
-                req.flash('success', '已更新使用者資訊')
-                res.redirect(`/users/${user.id}`)
-              })
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return User.findByPk(req.params.id)
+          .then((user) => {
+            user.update({
+              name: req.body.name,
+              email: user.email,
+              password: user.password,
+              avatar: file ? img.data.link : user.image,
+              introduction: req.body.introduction,
+              role: user.role
+            }).then((user) => {
+              req.flash('success', '已更新使用者資訊')
+              res.redirect(`/users/${user.id}`)
             })
-        })
+          })
       })
     } else {
       return User.findByPk(req.params.id)
