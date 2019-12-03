@@ -17,6 +17,8 @@ app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+
+
 app.use(session({
   secret: 'LastWendyTomatoBurger',
   resave: false,
@@ -24,6 +26,8 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use('/upload', express.static(__dirname + '/upload'))
 
 app.use(flash())
 app.use((req, res, next) => {

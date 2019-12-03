@@ -4,6 +4,9 @@ const adminTweetsCtrller = require('../controllers/adminTweetsCtrller')
 
 const { isAuth, isAdminAuth } = require('../middleware/auth')
 
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
+
 module.exports = (app, passport) => {
   app.get('/', isAuth, (req, res) => res.redirect('/tweets'))
 
@@ -20,4 +23,8 @@ module.exports = (app, passport) => {
   app.get('/signin', userCtrller.signInPage)
   app.post('/signin', userCtrller.signIn.bind(null, passport))
   app.get('/logout', userCtrller.logout)
+
+  app.use('/users', isAuth)
+  app.get('/users/:id/edit', userCtrller.editPage)
+  app.post('/users/:id/edit', upload.single('image'), userCtrller.postProfile)
 }

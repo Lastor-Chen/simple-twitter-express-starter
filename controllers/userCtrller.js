@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
+const helpers = require('../_helpers')
+const fs = require('fs')
 const User = db.User
 
 // custom module
@@ -39,7 +41,7 @@ module.exports = {
     passport.authenticate('local', {
       successRedirect: '/tweets',
       successFlash: true,
-      failureRedirect: '/signin', 
+      failureRedirect: '/signin',
       failureFlash: true,
       badRequestMessage: '請輸入 Email 與 Passport'
     })(req, res, next)
@@ -49,5 +51,63 @@ module.exports = {
     req.flash('success', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+
+  editPage: (req, res) => {
+    let user = helpers.getUser(req)
+    return User.findByPk(req.params.id)
+      .then(userResult => {
+        if (userResult.id !== user.id) {
+          req.flash('error', '別人的資訊只能用看的喔！')
+          res.redirect(`/users/${req.params.id}`)
+        } else {
+          return res.render('edit', { userResult })
+        }
+      })
+  },
+
+  postProfile: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error', "請填寫名稱")
+      return res.redirect('back')
+    }
+
+    const { file } = req
+    if (file) {
+      fs.readFile(file.path, (err, data) => {
+        if (err) console.log('Error: ', err)
+        fs.writeFile(`upload/${file.originalname}`, data, () => {
+          return User.findByPk(req.params.id)
+            .then((user) => {
+              user.update({
+                name: req.body.name,
+                email: user.email,
+                password: user.password,
+                avatar: file ? `/upload/${file.originalname}` : user.image,
+                introduction: req.body.introduction,
+                role: user.role
+              }).then((user) => {
+                req.flash('success', '已更新使用者資訊')
+                res.redirect(`/users/${user.id}`)
+              })
+            })
+        })
+      })
+    } else {
+      return User.findByPk(req.params.id)
+        .then((user) => {
+          user.update({
+            name: req.body.name,
+            email: user.email,
+            password: user.password,
+            avatar: user.image,
+            introduction: req.body.introduction,
+            role: user.role
+          }).then((user) => {
+            req.flash('success', '已更新使用者資訊')
+            res.redirect(`/users/${user.id}`)
+          })
+        })
+    }
   }
 }
