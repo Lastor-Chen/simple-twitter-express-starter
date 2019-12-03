@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
+const helpers = require('../_helpers.js')
 const db = require('../models')
 const User = db.User
+const Followship = db.Followship
 
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
@@ -48,5 +50,44 @@ module.exports = {
     req.flash('success', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+
+  follow: async (req, res, next) => {
+    const user = helpers.getUser(req)
+    const targetId = +req.body.id
+    if (user.id === targetId) return res.sendStatus(200)
+
+    try {
+      await Followship.create({
+        followerId: user.id,
+        followingId: targetId
+      })
+
+      res.redirect('back')
+
+    } catch (err) {
+      console.log(err.toString())
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
+
+  unfollow: async (req, res) => {
+    const user = helpers.getUser(req)
+
+    try {
+      const followship = await Followship.findOne({
+        where: {
+          followerId: user.id,
+          followingId: req.params.followingId
+        }
+      })
+
+      await followship.destroy()
+      res.redirect('back')
+
+    } catch (err) {
+      console.log(err.toString())
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
   }
 }
