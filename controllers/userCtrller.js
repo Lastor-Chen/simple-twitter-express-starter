@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs')
 const db = require('../models')
 const helpers = require('../_helpers')
 
-const imgur = require('imgur-node-api')
+const imgur = require('imgur')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const User = db.User
@@ -69,46 +69,30 @@ module.exports = {
       })
   },
 
-  postProfile: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error', "請填寫名稱")
-      return res.redirect('back')
+  postProfile: async (req, res) => {
+    try {
+      if (!req.body.name) {
+        req.flash('error', "請填寫名稱")
+        return res.redirect('back')
+      }
+
+      const input = { ...req.body }
+      const { file } = req
+
+      if (file) {
+        imgur.setClientId(IMGUR_CLIENT_ID)
+        input.avatar = (await imgur.uploadFile(file.path)).data.link
+      }
+
+      const user = await User.findByPk(req.params.id)
+      user.update(input)
+
+      req.flash('success', '已更新使用者資訊')
+      res.redirect(`/users/${user.id}`)
+
+    } catch (err) {
+      console.error(err)
     }
 
-    const { file } = req
-    if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID)
-      imgur.upload(file.path, (err, img) => {
-        return User.findByPk(req.params.id)
-          .then((user) => {
-            user.update({
-              name: req.body.name,
-              email: user.email,
-              password: user.password,
-              avatar: file ? img.data.link : user.image,
-              introduction: req.body.introduction,
-              role: user.role
-            }).then((user) => {
-              req.flash('success', '已更新使用者資訊')
-              res.redirect(`/users/${user.id}`)
-            })
-          })
-      })
-    } else {
-      return User.findByPk(req.params.id)
-        .then((user) => {
-          user.update({
-            name: req.body.name,
-            email: user.email,
-            password: user.password,
-            avatar: user.image,
-            introduction: req.body.introduction,
-            role: user.role
-          }).then((user) => {
-            req.flash('success', '已更新使用者資訊')
-            res.redirect(`/users/${user.id}`)
-          })
-        })
-    }
   }
 }
