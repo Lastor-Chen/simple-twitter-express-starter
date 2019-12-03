@@ -52,7 +52,7 @@ module.exports = {
 
   getUser: async (req, res) => {
     try {
-      const user = await User.findByPk(req.params.id, {
+      const showedUser = await User.findByPk(req.params.id, {
         include: [
           Like, 'Followers', 'Followings',
           { model: Tweet, include: [Reply, Like] },
@@ -60,7 +60,7 @@ module.exports = {
         order: [[Tweet, 'id', 'DESC']]
       })
 
-      const tweets = user.Tweets
+      const tweets = showedUser.Tweets
       tweets.forEach(tweet => {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
@@ -68,7 +68,7 @@ module.exports = {
         tweet.countLikes = tweet.Likes.length
       });
 
-      return res.render('user', { user, tweets, profileId: req.user.id })
+      return res.render('user', { showedUser, tweets, profileId: req.user.id })
     }
     catch (err) {
       console.error(err.toString())
