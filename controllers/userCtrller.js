@@ -54,18 +54,10 @@ module.exports = {
     try {
       const user = await User.findByPk(req.params.id, {
         include: [
-          {
-            model: Tweet,
-            include: [
-              { model: Reply },
-              { model: Like }
-            ]
-          },
-          { model: Like },
-          { model: User, as: 'Followers' },
-          { model: User, as: 'Followings' }
+          Like, 'Followers', 'Followings',
+          { model: Tweet, include: [Reply, Like] },
         ],
-        order: [[{ model: Tweet }, 'createdAt', 'DESC']]
+        order: [[Tweet, 'id', 'DESC']]
       })
 
       const tweets = user.Tweets
