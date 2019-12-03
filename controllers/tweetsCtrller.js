@@ -10,7 +10,8 @@ module.exports = {
       const [tweets, users] = await Promise.all([
         Tweet.findAll({
           order: [['id', 'DESC']],  // 最新順
-          include: [{ all: true }] }),
+          include: [{ all: true, nested: false }] 
+        }),
         User.findAll({ 
           order: [['id', 'ASC']],
           include: [{ all: true }]
@@ -22,13 +23,14 @@ module.exports = {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
-        tweet.countLikes = tweet.Likes.length
+        tweet.countLikes = tweet.LikeUsers.length
+        tweet.isLike = req.user.LikeTweets.some(like => tweet.id === like.id)
       })
 
       res.render('tweets', { tweets, users })
 
     } catch (err) {
-      console.error(err.toString())
+      console.error(err)
       res.status(500).json(err.toString())
     }
   },
