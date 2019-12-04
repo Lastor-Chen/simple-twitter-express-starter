@@ -1,1 +1,29 @@
-<h1>這裡是管理員頁面 'admin/tweets'</h1>
+<div class="mt-5">
+  <div class="my-2">
+    <a href='/admin/tweets'>Tweets</a> |
+    <a href='/admin/users'>Users</a>
+  </div>
+  <table data-toggle="table" data-search="true" data-show-columns="true">
+    <thead>
+      <tr>
+        <th class="text-center">User</th>
+        <th class="text-center">Tweet</th>
+        <th class="text-center">Time</th>
+        <th class="text-center">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tweets}}
+        <tr>
+          <td>
+            <a href="/users/{{User.id}}/tweets">
+              <img src="{{User.avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 50px">
+            </a>
+          </td>
+          <td>{{description}}</td>
+          <td>{{date}} {{time}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
