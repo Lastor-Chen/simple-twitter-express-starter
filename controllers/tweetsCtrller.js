@@ -28,10 +28,37 @@ module.exports = {
         user.isSelf = (user.id === req.user.id)
       })
 
-      res.render('tweets', { tweets, users })
+      // POST tweet 失敗時，保留內文
+      const history = req.flash('description')
+
+      res.render('tweets', { tweets, users, history })
 
     } catch (err) {
-      console.error(err.toString())
+      console.error(err)
+      res.status(500).json(err.toString())
+    }
+  },
+
+  postTweet: async (req , res) => {
+    try {
+      const { description } = req.body
+
+      if (description.length > 140) {
+        req.flash('error', '不得超過 140 字')
+        req.flash('description', description)
+        return res.redirect('/tweets')
+      } 
+
+      await Tweet.create({
+        UserId: req.user.id,
+        description
+      })
+
+      req.flash('success', '發送成功')
+      res.redirect('/tweets')
+
+    } catch (err) {
+      console.log(err)
       res.status(500).json(err.toString())
     }
   }
