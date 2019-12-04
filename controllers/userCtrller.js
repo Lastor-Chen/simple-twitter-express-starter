@@ -62,7 +62,7 @@ module.exports = {
       .then(userResult => {
         if (userResult.id !== user.id) {
           req.flash('error', '別人的資訊只能用看的喔！')
-          res.redirect(`/users/${req.params.id}`)
+          res.redirect(`/users/${user.id}/edit`)
         } else {
           return res.render('edit', { userResult })
         }
@@ -71,6 +71,12 @@ module.exports = {
 
   postProfile: async (req, res) => {
     try {
+
+      if (helpers.getUser(req).id !== req.params.id) {
+        req.flash('error', '只能改自己的資料喔！')
+        res.redirect(`/users/${helpers.getUser(req).id}/edit`)
+      }
+
       if (!req.body.name) {
         req.flash('error', "請填寫名稱")
         return res.redirect('back')
