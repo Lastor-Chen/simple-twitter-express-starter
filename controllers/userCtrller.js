@@ -55,7 +55,7 @@ module.exports = {
   follow: async (req, res, next) => {
     const user = helpers.getUser(req)
     const targetId = +req.body.id
-    if (user.id === targetId) return res.sendStatus(200)
+    if (user.id === targetId) return res.redirect('back')
 
     try {
       await Followship.create({
