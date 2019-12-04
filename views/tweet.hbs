@@ -12,7 +12,7 @@
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <a href="/users/{{showedUser.id}}/tweets">Tweets {{tweets.length}}</a>
+            <a href="/users/{{showedUser.id}}/tweets">Tweets {{showedUser.Tweets.length}}</a>
           </li>
           <li class="list-group-item">
             <a href="/users/{{showedUser.id}}/followings">Following {{showedUser.Followings.length}}</a>
@@ -45,23 +45,24 @@
         <div class="card mb-3">
           <div class="row no-gutters">
             <div class="col-md-4 ">
-              <img src="{{../showedUser.avatar}}" class="card-img" alt="avatar">
+              <img src="{{showedUser.avatar}}" class="card-img" alt="avatar">
             </div>
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{../showedUser.id}}/tweets">@{{../showedUser.name}} ,{{this.date}}, {{this.time}}</a>
+                  <a href="/users/{{showedUser.id}}/tweets">@{{showedUser.name}} ,{{showedTweet.date}},
+                    {{showedTweet.time}}</a>
                 </h5>
-                <p class="card-text">{{this.description}}</p>
+                <p class="card-text">{{showedTweet.description}}</p>
                 <div class="d-flex align-items-center">
-                  <a href="/tweets/{{this.id}}/replies">Reply({{this.countReplies}})</a>
-                  {{#if isLiked}}
-                  <form action="/tweets/{{this.id}}/unlike" method="POST" class="d-inline-block">
-                    <button type="submit" class="btn btn-link">Unlike({{this.countLikes}})</button>
+                  <a href="/tweets/{{showedTweet.id}}/replies">Reply({{showedTweet.countReplies}})</a>
+                  {{#if showedTweet.isLiked}}
+                  <form action="/tweets/{{showedTweet.id}}/unlike" method="POST" class="d-inline-block">
+                    <button type="submit" class="btn btn-link">Unlike({{showedTweet.countLikes}})</button>
                   </form>
                   {{else}}
-                  <form action="/tweets/{{this.id}}/like" method="POST" class="d-inline-block">
-                    <button type="submit" class="btn btn-link">Like({{this.countLikes}})</button>
+                  <form action="/tweets/{{showedTweet.id}}/like" method="POST" class="d-inline-block">
+                    <button type="submit" class="btn btn-link">Like({{showedTweet.countLikes}})</button>
                   </form>
                   {{/if}}
                 </div>
@@ -74,27 +75,28 @@
     {{!-- replies --}}
     <h3>Replies</h3>
     <div class=" mt-3">
+      {{#each replies}}
       <article>
         <div class="card mb-3">
           <div class="row no-gutters">
             <div class="col-md-4 ">
-              <img src="{{../showedUser.avatar}}" class="card-img" alt="avatar">
+              <img src="{{this.User.avatar}}" class="card-img" alt="avatar">
             </div>
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{../showedUser.id}}/tweets">@{{../showedUser.name}} ,{{this.date}}, {{this.time}}</a>
+                  <a href="/users/{{this.UserId}}/tweets">@{{this.User.name}} ,{{this.date}},{{this.time}}</a>
                 </h5>
-                <p class="card-text">{{this.description}}</p>
+                <p class="card-text">{{this.comment}}</p>
               </div>
             </div>
           </div>
         </div>
       </article>
+      {{/each}}
     </div>
-
     <section>
-      <form action="" method="POST">
+      <form action="/tweets/{{showedTweet.id}}/replies" method="POST">
         <div class="form-group">
           <textarea class="form-control" name="" id="" rows="4"></textarea>
         </div>
