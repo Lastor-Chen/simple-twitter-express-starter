@@ -69,7 +69,7 @@ module.exports = {
         tweet.isLiked = tweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
       });
 
-      return res.render('user', { showedUser, tweets, profileId: req.user.id })
+      return res.render('user', { showedUser, tweets })
     }
     catch (err) {
       console.error(err)
