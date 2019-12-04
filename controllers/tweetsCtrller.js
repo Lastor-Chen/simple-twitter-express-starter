@@ -48,6 +48,11 @@ module.exports = {
       const user = helpers.getUser(req)
       const { description } = req.body
 
+      if (!description) {
+        req.flash('error', '請輸入內文')
+        return res.redirect('/tweets')
+      }
+
       if (description.length > 140) {
         req.flash('error', '不得超過 140 字')
         req.flash('description', description)
