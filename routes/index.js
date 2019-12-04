@@ -20,4 +20,8 @@ module.exports = (app, passport) => {
   app.get('/signin', userCtrller.signInPage)
   app.post('/signin', userCtrller.signIn.bind(null, passport))
   app.get('/logout', userCtrller.logout)
+
+  app.use('/followships', isAuth)
+  app.post('/followships', userCtrller.follow)
+  app.delete('/followships/:followingId', userCtrller.unfollow)
 }

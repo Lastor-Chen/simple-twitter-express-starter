@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const passport = require('./config/passport')
 const flash = require('connect-flash')
 const session = require('express-session')
+const methodOverride = require('method-override')
 
 // ======================================
 const app = express()
@@ -16,6 +17,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 app.use(express.static('public'))
 app.use(session({
   secret: 'LastWendyTomatoBurger',
