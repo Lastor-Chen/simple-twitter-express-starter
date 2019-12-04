@@ -66,7 +66,7 @@ module.exports = {
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
-        tweet.isLiked = tweet.LikedUsers.map(likedUser => likedUser.id).includes(req.user.id)
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
       });
 
       return res.render('user', { showedUser, tweets, profileId: req.user.id })
