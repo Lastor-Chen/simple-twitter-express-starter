@@ -88,7 +88,7 @@ module.exports = {
       user.update(input)
 
       req.flash('success', '已更新使用者資訊')
-      res.redirect(`/users/${user.id}`)
+      res.redirect(`/users/${user.id}/tweets`)
 
     } catch (err) {
       console.error(err)
