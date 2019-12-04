@@ -34,5 +34,8 @@ module.exports = {
       console.error(err.toString())
       res.status(500).json(err.toString())
     }
+  },
+  getTweet: async (req, res) => {
+    res.render('tweet')
   }
 }
