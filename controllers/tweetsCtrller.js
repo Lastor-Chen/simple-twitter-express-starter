@@ -8,6 +8,7 @@ const helpers = require('../_helpers')
 module.exports = {
   getTweets: async (req, res) => {
     try {
+      const reqUser = helpers.getUser(req)
       const [tweets, users] = await Promise.all([
         Tweet.findAll({
           order: [['id', 'DESC']],  // 最新順
@@ -27,8 +28,8 @@ module.exports = {
       })
 
       users.forEach(user => {
-        user.isFollowing = req.user.Followings.some(following => user.id === following.id)
-        user.isSelf = (user.id === req.user.id)
+        user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
+        user.isSelf = (user.id === reqUser.id)
       })
 
       // POST tweet 失敗時，保留內文
