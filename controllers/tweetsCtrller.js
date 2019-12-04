@@ -2,9 +2,13 @@ const db = require('../models')
 const Tweet = db.Tweet
 const User = db.User
 
+// custom module
+const helpers = require('../_helpers')
+
 module.exports = {
   getTweets: async (req, res) => {
     try {
+      const reqUser = helpers.getUser(req)
       const [tweets, users] = await Promise.all([
         Tweet.findAll({
           order: [['id', 'DESC']],  // 最新順
@@ -24,14 +28,47 @@ module.exports = {
       })
 
       users.forEach(user => {
-        user.isFollowing = req.user.Followings.some(following => user.id === following.id)
-        user.isSelf = (user.id === req.user.id)
+        user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
+        user.isSelf = (user.id === reqUser.id)
       })
 
-      res.render('tweets', { tweets, users })
+      // POST tweet 失敗時，保留內文
+      const history = req.flash('description')
+
+      res.render('tweets', { tweets, users, history })
 
     } catch (err) {
-      console.error(err.toString())
+      console.error(err)
+      res.status(500).json(err.toString())
+    }
+  },
+
+  postTweet: async (req , res) => {
+    try {
+      const user = helpers.getUser(req)
+      const { description } = req.body
+
+      if (!description) {
+        req.flash('error', '請輸入內文')
+        return res.redirect('/tweets')
+      }
+
+      if (description.length > 140) {
+        req.flash('error', '不得超過 140 字')
+        req.flash('description', description)
+        return res.redirect('/tweets')
+      } 
+
+      await Tweet.create({
+        UserId: user.id,
+        description
+      })
+
+      req.flash('success', '發送成功')
+      res.redirect('/tweets')
+
+    } catch (err) {
+      console.log(err)
       res.status(500).json(err.toString())
     }
   }

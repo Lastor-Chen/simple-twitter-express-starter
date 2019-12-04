@@ -9,6 +9,7 @@ module.exports = (app, passport) => {
 
   app.use('/tweets', isAuth)
   app.get('/tweets', tweetsCtrller.getTweets)
+  app.post('/tweets', tweetsCtrller.postTweet)
 
   app.use('/users', isAuth)
   app.get('/users/:id', (req, res) => res.redirect(`/users/${req.params.id}/tweets`))
