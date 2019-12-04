@@ -1,9 +1,8 @@
 const db = require('../models')
-const Tweet = db.Tweet
-const User = db.User
+const { Tweet, User, Like } = db
 
 // custom module
-const helpers = require('../_helpers')
+const helpers = require('../_helpers.js')
 
 module.exports = {
   getTweets: async (req, res) => {
@@ -12,7 +11,8 @@ module.exports = {
       const [tweets, users] = await Promise.all([
         Tweet.findAll({
           order: [['id', 'DESC']],  // 最新順
-          include: [{ all: true }] }),
+          include: [{ all: true, nested: false }] 
+        }),
         User.findAll({ 
           order: [['id', 'ASC']],
           include: 'Followers'
@@ -24,7 +24,8 @@ module.exports = {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
-        tweet.countLikes = tweet.Likes.length
+        tweet.countLikes = tweet.LikedUsers.length
+        tweet.isLike = reqUser.LikedTweets.some(like => tweet.id === like.id)
       })
 
       users.forEach(user => {
@@ -68,7 +69,42 @@ module.exports = {
       res.redirect('/tweets')
 
     } catch (err) {
-      console.log(err)
+      console.error(err)
+      res.status(500).json(err.toString())
+    }
+  },
+
+  like: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      await Like.create({ 
+        UserId: user.id, 
+        TweetId: req.params.id
+      })
+
+      res.redirect('back')
+
+    } catch (err) {
+      console.error(err)
+      res.status(500).json(err.toString())
+    }
+  },
+  
+  unlike: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      const like = await Like.findOne({
+        where: {
+          UserId: user.id,
+          TweetId: req.params.id
+        }
+      })
+
+      await like.destroy()
+      res.redirect('back')
+
+    } catch (err) {
+      console.error(err)
       res.status(500).json(err.toString())
     }
   }

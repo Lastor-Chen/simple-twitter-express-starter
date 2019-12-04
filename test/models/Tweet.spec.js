@@ -47,7 +47,7 @@ describe('# Tweet Model', () => {
       done()
     })
     it('should have many likes', (done) => {
-      expect(Tweet.hasMany).to.have.been.calledWith(Like)
+      expect(Tweet.belongsTo).to.have.been.calledWith(User)
       done()
     })
     it('should belong to user', (done) => {

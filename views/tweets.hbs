@@ -29,9 +29,15 @@
                   <p class="card-text">{{description}}</p>
                   <div class="d-flex align-items-center">
                     <a href="/tweets/{{id}}/replies">Reply({{countReplies}})</a>
-                    <form action="/tweets/{{id}}/like" method="POST" class="d-inline-block">
-                      <button type="submit" class="btn btn-link">Like({{countLikes}})</button>
-                    </form>
+                    {{#if isLike}}
+                      <form action="/tweets/{{id}}/unlike" method="POST" class="d-inline-block">
+                        <button type="submit" class="btn btn-link">Unlike({{countLikes}})</button>
+                      </form>
+                    {{else}}
+                      <form action="/tweets/{{id}}/like" method="POST" class="d-inline-block">
+                        <button type="submit" class="btn btn-link">Like({{countLikes}})</button>
+                      </form>
+                    {{/if}}
                   </div>
                 </div>
               </div>

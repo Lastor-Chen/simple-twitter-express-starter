@@ -10,11 +10,13 @@ module.exports = (app, passport) => {
   app.use('/tweets', isAuth)
   app.get('/tweets', tweetsCtrller.getTweets)
   app.post('/tweets', tweetsCtrller.postTweet)
+  app.post('/tweets/:id/like', tweetsCtrller.like)
+  app.post('/tweets/:id/unlike', tweetsCtrller.unlike)
 
   app.use('/users', isAuth)
   app.get('/users/:id', (req, res) => res.redirect(`/users/${req.params.id}/tweets`))
   app.get('/users/:id/tweets', userCtrller.getUser)
-
+  
   app.use('/admin', isAdminAuth)
   app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
   app.get('/admin/tweets', adminTweetsCtrller.getTweets)
