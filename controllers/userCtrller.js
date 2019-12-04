@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs')
 const helpers = require('../_helpers.js')
 const db = require('../models')
-const User = db.User
-const Followship = db.Followship
+const { User, Tweet, Reply, Followship } = db
+
 
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
@@ -40,7 +40,7 @@ module.exports = {
     passport.authenticate('local', {
       successRedirect: '/tweets',
       successFlash: true,
-      failureRedirect: '/signin', 
+      failureRedirect: '/signin',
       failureFlash: true,
       badRequestMessage: '請輸入 Email 與 Passport'
     })(req, res, next)
@@ -87,6 +87,33 @@ module.exports = {
 
     } catch (err) {
       console.log(err.toString())
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
+
+  getUser: async (req, res) => {
+    try {
+      const showedUser = await User.findByPk(req.params.id, {
+        include: [
+          'LikedTweets', 'Followers', 'Followings',
+          { model: Tweet, include: [Reply, 'LikedUsers'] },
+        ],
+        order: [[Tweet, 'id', 'DESC']]
+      })
+
+      const tweets = showedUser.Tweets
+      tweets.forEach(tweet => {
+        tweet.date = tweet.createdAt.toLocaleDateString()
+        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
+        tweet.countReplies = tweet.Replies.length
+        tweet.countLikes = tweet.LikedUsers.length
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
+      });
+
+      return res.render('user', { showedUser, tweets })
+    }
+    catch (err) {
+      console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
   }

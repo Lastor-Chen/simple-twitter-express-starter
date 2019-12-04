@@ -4,9 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     UserId: DataTypes.INTEGER,
     TweetId: DataTypes.INTEGER
   }, {});
-  Like.associate = function(models) {
-    Like.belongsTo(models.Tweet)
-    Like.belongsTo(models.User)
+  Like.associate = function (models) {
+    // associations can be defined here
   };
   return Like;
 };

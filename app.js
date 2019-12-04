@@ -12,7 +12,8 @@ const port = process.env.PORT || 3000
 
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
-  extname: 'hbs'
+  extname: 'hbs',
+  helpers: require('./lib/hbs_helpers')
 }))
 app.set('view engine', 'hbs')
 
