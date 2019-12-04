@@ -2,6 +2,9 @@ const db = require('../models')
 const Tweet = db.Tweet
 const User = db.User
 
+// custom module
+const helpers = require('../_helpers')
+
 module.exports = {
   getTweets: async (req, res) => {
     try {
@@ -41,6 +44,7 @@ module.exports = {
 
   postTweet: async (req , res) => {
     try {
+      const user = helpers.getUser(req)
       const { description } = req.body
 
       if (description.length > 140) {
@@ -50,7 +54,7 @@ module.exports = {
       } 
 
       await Tweet.create({
-        UserId: req.user.id,
+        UserId: user.id,
         description
       })
 
