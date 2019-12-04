@@ -25,13 +25,13 @@
           </li>
         </ul>
         <div class="card-body">
-          {{#ifEquels profileId user.id}}
+          {{#ifEquals profileId user.id}}
           <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
           {{else}}
           <form action="/followships" method="POST">
             <button type="submit" class="btn btn-primary">Follow</button>
           </form>
-          {{/ifEquels}}
+          {{/ifEquals}}
         </div>
       </div>
     </div>
