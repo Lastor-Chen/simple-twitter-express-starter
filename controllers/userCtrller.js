@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 const helpers = require('../_helpers.js')
 const db = require('../models')
-const { User, Tweet, Reply, Followship } = db
+const { User, Tweet, Reply, Followship, Like } = db
 
 
 // custom module
@@ -116,5 +116,9 @@ module.exports = {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
+  },
+
+  getLikes: async (req, res) => {
+    res.render('userLikes')
   }
 }
