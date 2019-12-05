@@ -7,15 +7,10 @@ const helpers = require('../_helpers')
 module.exports = {
   getTweets: async (req, res) => {
     try {
-      const reqUser = helpers.getUser(req)
-      const [tweets, users] = await Promise.all([
+      const [tweets] = await Promise.all([
         Tweet.findAll({
           order: [['id', 'DESC']],
           include: [{ all: true }]
-        }),
-        User.findAll({
-          order: [['id', 'ASC']],
-          include: 'Followers'
         })
       ])
 
@@ -34,18 +29,22 @@ module.exports = {
   },
 
   deleteTweets: async (req, res) => {
-    tweet = await Tweet.findByPk(req.params.id)
+    try {
+      tweet = await Tweet.findByPk(req.params.id)
 
-    if (!tweet) {
-      req.flash('error', '沒有該則推文')
-      return res.redirect(`/admin/tweets`)
+      if (!tweet) {
+        req.flash('error', '沒有該則推文')
+        return res.redirect(`/admin/tweets`)
+      }
+
+      tweet.destroy()
+
+      req.flash('success', '已刪除推文')
+      res.redirect(`/admin/tweets`)
+    } catch (err) {
+      console.error(err)
+      res.status(500).json(err.toString())
     }
-
-    tweet.destroy()
-
-    req.flash('success', '已刪除推文')
-    res.redirect(`/admin/tweets`)
-
   }
 }
 
