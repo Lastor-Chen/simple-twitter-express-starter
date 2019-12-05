@@ -63,6 +63,10 @@ module.exports = {
         reply.time = reply.createdAt.toLocaleTimeString().slice(0, -3)
       })
 
+      // 頁面 User 資訊
+      showedUser.isFollowing = req.user.Followings.some(following => showedUser.id === following.id)
+      showedUser.isSelf = (showedUser.id === req.user.id)
+
       res.render('userReplies', { showedTweet, showedUser, replies })
 
     } catch (err) {
