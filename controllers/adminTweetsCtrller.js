@@ -22,7 +22,7 @@ module.exports = {
       tweets.forEach(tweet => {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
-        tweet.description = tweet.description.slice(0, 50)
+        tweet.shortenDescript = tweet.description.slice(0, 50)
       })
 
       res.render('admin/tweets', { tweets })
