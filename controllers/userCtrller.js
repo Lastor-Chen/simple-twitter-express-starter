@@ -92,6 +92,7 @@ module.exports = {
   },
 
   getUser: async (req, res) => {
+    const reqUser = helpers.getUser(req)
     try {
       const showedUser = await User.findByPk(req.params.id, {
         include: [
@@ -107,7 +108,7 @@ module.exports = {
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
-        tweet.isLiked = tweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => reqUser.id === likedUser.id)
       });
 
       return res.render('user', { showedUser, tweets })
