@@ -1,0 +1,36 @@
+<aside class="col-4">
+  <div class="row">
+    <div class="card col-8">
+      <img src="{{showedUser.avatar}}" class="card-img-top" alt="avatar">
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="/users/{{showedUser.id}}/tweets">{{showedUser.name}}</a>
+        </h5>
+        <p class="card-text">{{showedUser.introduction}}</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <a href="/users/{{showedUser.id}}/tweets">Tweets {{tweets.length}}</a>
+        </li>
+        <li class="list-group-item">
+          <a href="/users/{{showedUser.id}}/followings">Following {{showedUser.Followings.length}}</a>
+        </li>
+        <li class="list-group-item">
+          <a href="/users/{{showedUser.id}}/followers">Follower {{showedUser.Followers.length}}</a>
+        </li>
+        <li class="list-group-item">
+          <a href="/users/{{showedUser.id}}/likes">Like {{showedUser.LikedTweets.length}}</a>
+        </li>
+      </ul>
+      <div class="card-body">
+        {{#ifEquals showedUser.id user.id}}
+          <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
+          {{else}}
+            <form action="/followships" method="POST">
+              <button type="submit" class="btn btn-primary">Follow</button>
+            </form>
+        {{/ifEquals}}
+      </div>
+    </div>
+  </div>
+</aside>
