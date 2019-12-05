@@ -38,37 +38,39 @@
   </aside>
   {{!-- followings --}}
   <main class="col-8">
-    <aside class="row">
-      <h3 class="col-12">Following</h3>
+    <h3>Following</h3>
+    <div class="row">
       {{#each followings}}
-        <div class="col-6 mb-4">
+        <article class="col-6 mb-4">
           <div class="card h-100">
-            <div class="row no-gutters">
+            <div class="row no-gutters h-100">
               <div class="col-md-4">
                 <img src="{{avatar}}" class="card-img" alt="avatar">
               </div>
               <div class="col-md-8">
-                <div class="card-body">
+                <div class="card-body h-100 d-flex flex-column">
                   <h5 class="card-title">
                     <a href="/users/{{id}}/tweets">@{{name}}</a>
                   </h5>
-                  <p class="card-text">{{introduction}}</p>
-                  {{#if isFollowing}}
-                    <form action="/followships/{{id}}?_method=DELETE" method="POST">
-                      <button type="submit" class="btn btn-primary">Following</button>
-                    </form>
-                  {{else}}
-                    <form action="/followships" method="POST">
-                      <input type="text" name="id" value="{{id}}" hidden>
-                      <button type="submit" class="btn btn-outline-primary">Follow</button>
-                    </form>
-                  {{/if}}
+                  <p class="card-text intro">{{introduction}}</p>
+                  <div class="mt-auto">
+                    {{#if isFollowing}}
+                      <form action="/followships/{{id}}?_method=DELETE" method="POST">
+                        <button type="submit" class="btn btn-primary">Following</button>
+                      </form>
+                    {{else}}
+                      <form action="/followships" method="POST">
+                        <input type="text" name="id" value="{{id}}" hidden>
+                        <button type="submit" class="btn btn-outline-primary">Follow</button>
+                      </form>
+                    {{/if}}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </article>
       {{/each}}
-    </aside>
+    </div>
   </main>
 </div>
