@@ -91,8 +91,9 @@ module.exports = {
     }
   },
 
-  getUser: async (req, res) => {
+  getUserTweets: async (req, res) => {
     try {
+      const user = helpers.getUser(req)
       const showedUser = await User.findByPk(req.params.id, {
         include: [
           'LikedTweets', 'Followers', 'Followings',
@@ -101,16 +102,20 @@ module.exports = {
         order: [[Tweet, 'id', 'DESC']]
       })
 
+      // 製作頁面資料
       const tweets = showedUser.Tweets
       tweets.forEach(tweet => {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
-        tweet.isLiked = tweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => user.id === likedUser.id)
       });
 
-      return res.render('user', { showedUser, tweets })
+      // Following 判斷
+      const isFollowing = user.Followings.some(following => following.id === showedUser.id)
+
+      return res.render('userTweets', { showedUser, tweets, isFollowing })
     }
     catch (err) {
       console.error(err)
