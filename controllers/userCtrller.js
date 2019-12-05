@@ -119,6 +119,36 @@ module.exports = {
   },
 
   getLikes: async (req, res) => {
-    res.render('userLikes')
+    const reqUser = helpers.getUser(req)
+    try {
+      const showedUser = await User.findByPk(req.params.id, {
+        include: [
+          Tweet, 'Followers', 'Followings',
+          { association: 'LikedTweets', include: [User, Reply, 'LikedUsers'] }
+        ],
+        order: [['LikedTweets', Like, 'id', 'DESC']]
+      })
+
+      // 頁面 user 資訊
+      showedUser.isFollowing = reqUser.Followings.some(following => showedUser.id === following.id)
+      showedUser.isSelf = (showedUser.id === reqUser.id)
+
+      // 頁面 like 推文資訊
+      const showedTweet = showedUser.LikedTweets
+      showedTweet.forEach(tweet => {
+        tweet.date = tweet.createdAt.toLocaleDateString()
+        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
+        tweet.countReplies = tweet.Replies.length
+        tweet.countLikes = tweet.LikedUsers.length
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => reqUser.id === likedUser.id)
+      })
+
+      return res.render('userLikes', { showedUser, showedTweet })
+
+    }
+    catch (err) {
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
   }
 }
