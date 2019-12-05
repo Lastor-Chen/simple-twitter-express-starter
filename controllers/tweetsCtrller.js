@@ -95,6 +95,7 @@ module.exports = {
         comment: req.body.comment
       })
 
+      req.flash('success', '發送成功！')
       res.redirect(`/tweets/${req.body.TweetId}/replies`)
 
     } catch{
