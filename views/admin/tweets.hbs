@@ -47,7 +47,12 @@
                 </button>
               </div>
               <div class="modal-body">
-                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title">{{description}}</h5>
+                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title"><i class="fas fa-quote-left"></i>
+                  {{description}} <i class="fas fa-quote-right"></i></h5>
+                </br>
+                {{#each this.Replies}}
+                  <p><i class="fas fa-angle-right"></i> {{this.comment}}</p>
+                {{/each}}
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
