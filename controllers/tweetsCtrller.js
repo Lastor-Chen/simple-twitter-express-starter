@@ -35,7 +35,8 @@ module.exports = {
       res.status(500).json(err.toString())
     }
   },
-  getTweet: async (req, res) => {
+
+  getReplies: async (req, res) => {
     try {
       const showedTweet = await Tweet.findByPk(req.params.tweet_id, {
         include: [User, 'LikedUsers',
@@ -74,7 +75,8 @@ module.exports = {
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
   },
-  postTweet: async (req, res) => {
+
+  postReply: async (req, res) => {
     try {
       // 如內容空白將會產生警告
       if (!req.body.comment) {
