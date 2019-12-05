@@ -2,7 +2,8 @@ const bcrypt = require('bcryptjs')
 const helpers = require('../_helpers.js')
 const db = require('../models')
 const { User, Tweet, Reply, Followship } = db
-
+const imgur = require('imgur')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
@@ -20,6 +21,7 @@ module.exports = {
       const error = await checkSignUp(input)
       if (error) return res.render('signup', { error, input })
 
+      input.avatar = 'https://i.imgur.com/Dg08MC8.png'
       input.password = bcrypt.hashSync(input.password, 10)
       await User.create(input)
 
@@ -52,7 +54,7 @@ module.exports = {
     res.redirect('/signin')
   },
 
-  follow: async (req, res, next) => {
+  follow: async (req, res) => {
     const user = helpers.getUser(req)
     const targetId = +req.body.id
     if (user.id === targetId) return res.redirect('back')
@@ -108,11 +110,57 @@ module.exports = {
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
         tweet.isLiked = tweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
-      });
+      })
 
-      return res.render('user', { showedUser, tweets })
+      res.render('user', { showedUser, tweets })
     }
     catch (err) {
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
+
+  editPage: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      if (+req.params.id !== user.id) {
+        req.flash('error', '別人的資訊只能用看的喔！')
+        return res.redirect(`/users/${user.id}/edit`)
+      }
+
+      res.render('edit')
+
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
+
+  postProfile: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      const targetId = +req.params.id
+      const input = { ...req.body }
+
+      // 檢查 input 與 user
+      if (user.id !== targetId) return res.render('edit', { error: '只能改自己的資料喔！' })
+      if (!input.name) return res.render('edit', { error: '請填寫名稱' })
+
+      // 圖片上傳
+      const { file } = req
+      if (file) {
+        imgur.setClientId(IMGUR_CLIENT_ID)
+        input.avatar = (await imgur.uploadFile(file.path)).data.link
+      }
+
+      // 更新 user profile
+      const newUser = await User.findByPk(targetId)
+      newUser.update(input)
+
+      req.flash('success', '已更新使用者資訊')
+      res.redirect(`/users/${user.id}/tweets`)
+
+    } catch (err) {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }

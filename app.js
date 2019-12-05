@@ -10,6 +10,10 @@ const methodOverride = require('method-override')
 const app = express()
 const port = process.env.PORT || 3000
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
   extname: 'hbs',
@@ -20,6 +24,8 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
+
+
 app.use(session({
   secret: 'LastWendyTomatoBurger',
   resave: false,
@@ -27,6 +33,8 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use('/upload', express.static(__dirname + '/upload'))
 
 app.use(flash())
 app.use((req, res, next) => {
