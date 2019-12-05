@@ -1,7 +1,9 @@
-<div class="row mt-5 no-gutters">
-  {{> userProfile}}
+<div class="row mt-5">
+  <aside class="col-3">
+    {{> userProfile}}
+  </aside>
   {{!-- followings --}}
-  <main class="col-8">
+  <main class="col-9">
     <h3>Following</h3>
     <div class="row">
       {{#each followings}}
