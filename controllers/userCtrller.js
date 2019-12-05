@@ -136,7 +136,7 @@ module.exports = {
         following.isFollowing = true
       })
 
-      res.render('userFollowings', { showedUser, followings })
+      res.render('userFollowings', { css: 'userFollowings', showedUser, followings })
 
     } catch (err) {
       console.error(err)
