@@ -24,15 +24,21 @@
           <td>{{shortenDescript}}
           <td>{{date}} {{time}}</td>
           <td>
-            <!-- Button trigger modal -->
+            <!-- Reply Button trigger modal -->
             <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
               data-target="#ModalScrollable{{this.id}}">
               <i class="far fa-comment-alt"></i>
             </button>
           </td>
+          <td>
+            <!-- Delete Button trigger modal -->
+            <button type="button" class="btn btn-outline-danger font-weight-normal" data-toggle="modal"
+              data-target="#delete_{{this.id}}">
+              <i class="far fa-trash-alt" aria-hidden="true"></i>
+            </button>
           </td>
         </tr>
-        <!-- Modal -->
+        <!--Reply Modal -->
         <div class="modal fade" id="ModalScrollable{{this.id}}" tabindex="-1" role="dialog"
           aria-labelledby="ModalScrollable{{this.id}}Title" aria-hidden="true">
           <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -56,6 +62,33 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{!-- Delete modal --}}
+        <div class="modal fade" id="delete_{{this.id}}" tabindex="-1" role="dialog"
+          aria-labelledby="delete_{{this.id}}Label" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="delete_{{this.id}}Label">刪除確認</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title"><i class="fas fa-quote-left"></i>
+                  {{description}} <i class="fas fa-quote-right"></i></h5>
+                </br>
+                <h5 class="text-danger text-right">你真的要刪除這則推文嗎？</h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <form action="/admin/tweets/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-outline-danger font-weight-normal">確認刪除
+                  </button>
+                </form>
               </div>
             </div>
           </div>
