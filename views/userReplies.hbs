@@ -103,8 +103,9 @@
     <section>
       <form action="/tweets/{{showedTweet.id}}/replies" method="POST">
         <div class="form-group">
-          <textarea class="form-control" name="" id="" rows="4"></textarea>
+          <textarea class="form-control" name="comment" id="comment" rows="4"></textarea>
         </div>
+        <input type="hidden" name="TweetId" value="{{showedTweet.id}}">
         <div class="text-right">
           <button type="submit" class="btn btn-primary">Reply</button>
         </div>

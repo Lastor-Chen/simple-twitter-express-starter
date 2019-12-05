@@ -73,5 +73,31 @@ module.exports = {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
+  },
+  postTweet: async (req, res) => {
+    try {
+      // 如內容空白將會產生警告
+      if (!req.body.comment) {
+        req.flash('error', '請填寫回覆內容')
+        return res.redirect('back')
+      }
+      // 內容超過 140 字會產生警告
+      if (req.body.comment.length > 140) {
+        req.flash('error', '內容超過 140 字')
+        return res.redirect('back')
+      }
+
+      const newReply = Reply.create({
+        UserId: req.user.id,
+        TweetId: req.body.TweetId,
+        comment: req.body.comment
+      })
+
+      res.redirect(`/tweets/${req.body.TweetId}/replies`)
+
+    } catch{
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
   }
 }
