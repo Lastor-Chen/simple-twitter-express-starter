@@ -72,9 +72,9 @@ module.exports = {
   postProfile: async (req, res) => {
     try {
 
-      if (helpers.getUser(req).id !== req.params.id) {
+      if (helpers.getUser(req).id !== +req.params.id) {
         req.flash('error', '只能改自己的資料喔！')
-        res.redirect(`/users/${helpers.getUser(req).id}/edit`)
+        return res.redirect(`/users/${helpers.getUser(req).id}/edit`)
       }
 
       if (!req.body.name) {
