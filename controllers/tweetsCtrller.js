@@ -1,4 +1,5 @@
 const db = require('../models')
+const helpers = require('../_helpers.js')
 const { Tweet, User, Reply } = db
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
 
   getReplies: async (req, res) => {
     try {
+      const user = helpers.getUser(req)
       const showedTweet = await Tweet.findByPk(req.params.tweet_id, {
         include: [User, 'LikedUsers',
           {
@@ -55,7 +57,7 @@ module.exports = {
       showedTweet.time = showedTweet.createdAt.toLocaleTimeString().slice(0, -3)
       showedTweet.countReplies = showedTweet.Replies.length
       showedTweet.countLikes = showedTweet.LikedUsers.length
-      showedTweet.isLiked = showedTweet.LikedUsers.some(likedUser => req.user.id === likedUser.id)
+      showedTweet.isLiked = showedTweet.LikedUsers.some(likedUser => user.id === likedUser.id)
 
       // 頁面 Replies 資訊
       const replies = showedTweet.Replies
@@ -65,8 +67,8 @@ module.exports = {
       })
 
       // 頁面 User 資訊
-      showedUser.isFollowing = req.user.Followings.some(following => showedUser.id === following.id)
-      showedUser.isSelf = (showedUser.id === req.user.id)
+      showedUser.isFollowing = user.Followings.some(following => showedUser.id === following.id)
+      showedUser.isSelf = (showedUser.id === user.id)
 
       res.render('userReplies', { showedTweet, showedUser, replies })
 
@@ -78,6 +80,7 @@ module.exports = {
 
   postReply: async (req, res) => {
     try {
+      const user = helpers.getUser(req)
       // 如內容空白將會產生警告
       if (!req.body.comment) {
         req.flash('error', '請填寫回覆內容')
@@ -89,8 +92,8 @@ module.exports = {
         return res.redirect('back')
       }
 
-      const newReply = Reply.create({
-        UserId: req.user.id,
+      await Reply.create({
+        UserId: user.id,
         TweetId: req.body.TweetId,
         comment: req.body.comment
       })
@@ -98,7 +101,7 @@ module.exports = {
       req.flash('success', '發送成功！')
       res.redirect(`/tweets/${req.body.TweetId}/replies`)
 
-    } catch{
+    } catch (err) {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
