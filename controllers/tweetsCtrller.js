@@ -63,7 +63,7 @@ module.exports = {
         reply.time = reply.createdAt.toLocaleTimeString().slice(0, -3)
       })
 
-      res.render('tweet', { showedTweet, showedUser, replies })
+      res.render('userReplies', { showedTweet, showedUser, replies })
 
     } catch (err) {
       console.error(err)
