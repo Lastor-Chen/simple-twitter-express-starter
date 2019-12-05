@@ -1,0 +1,74 @@
+<div class="row mt-5 no-gutters">
+  {{!-- user profile --}}
+  <aside class="col-4">
+    <div class="row">
+      <div class="card col-8">
+        <img src="{{showedUser.avatar}}" class="card-img-top" alt="avatar">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/users/{{showedUser.id}}/tweets">{{showedUser.name}}</a>
+          </h5>
+          <p class="card-text">{{showedUser.introduction}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/tweets">Tweets {{tweets.length}}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/followings">Following {{showedUser.Followings.length}}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/followers">Follower {{showedUser.Followers.length}}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/likes">Like {{showedUser.LikedTweets.length}}</a>
+          </li>
+        </ul>
+        <div class="card-body">
+          {{#ifEquals showedUser.id user.id}}
+            <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
+            {{else}}
+              <form action="/followships" method="POST">
+                <button type="submit" class="btn btn-primary">Follow</button>
+              </form>
+          {{/ifEquals}}
+        </div>
+      </div>
+    </div>
+  </aside>
+  {{!-- followings --}}
+  <main class="col-8">
+    <aside class="row">
+      <h3 class="col-12">Following</h3>
+      {{#each followings}}
+        <div class="col-6 mb-4">
+          <div class="card h-100">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img src="{{avatar}}" class="card-img" alt="avatar">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="/users/{{id}}/tweets">@{{name}}</a>
+                  </h5>
+                  <p class="card-text">{{introduction}}</p>
+                  {{#if isFollowing}}
+                    <form action="/followships/{{id}}?_method=DELETE" method="POST">
+                      <button type="submit" class="btn btn-primary">Following</button>
+                    </form>
+                  {{else}}
+                    <form action="/followships" method="POST">
+                      <input type="text" name="id" value="{{id}}" hidden>
+                      <button type="submit" class="btn btn-outline-primary">Follow</button>
+                    </form>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </aside>
+  </main>
+</div>

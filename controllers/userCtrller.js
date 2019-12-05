@@ -3,7 +3,6 @@ const helpers = require('../_helpers.js')
 const db = require('../models')
 const { User, Tweet, Reply, Followship } = db
 
-
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
 
@@ -113,6 +112,33 @@ module.exports = {
       return res.render('user', { showedUser, tweets })
     }
     catch (err) {
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
+
+  getFollowings: async (req, res) => {
+    try {
+      const showedUser = await User.findByPk(req.params.id, {
+        include: [
+          'Tweets', 'Followings', 'Followers', 'LikedTweets'
+        ],
+        
+        // 排序 Followings 藉由 Followship 的 id (最新順)
+        order: [
+          ['Followings', Followship, 'id', 'DESC']
+        ],
+      })
+
+      // 製作頁面資料
+      const followings = showedUser.Followings
+      followings.forEach(following => {
+        following.isFollowing = true
+      })
+
+      res.render('userFollowings', { showedUser, followings })
+
+    } catch (err) {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }

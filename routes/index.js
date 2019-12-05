@@ -16,6 +16,7 @@ module.exports = (app, passport) => {
   app.use('/users', isAuth)
   app.get('/users/:id', (req, res) => res.redirect(`/users/${req.params.id}/tweets`))
   app.get('/users/:id/tweets', userCtrller.getUser)
+  app.get('/users/:id/followings', userCtrller.getFollowings)
   
   app.use('/admin', isAdminAuth)
   app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
