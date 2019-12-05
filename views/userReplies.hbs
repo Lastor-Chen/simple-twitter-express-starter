@@ -28,13 +28,13 @@
           {{#if showedUser.isSelf}}
           <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
           {{else if showedUser.isFollowing}}
-          <form action="/followships/{{showedUser.id}}?_method=DELETE" method="POST" class="text-right">
+          <form action="/followships/{{showedUser.id}}?_method=DELETE" method="POST">
             <button type="submit" class="btn btn-primary">Following</button>
           </form>
           {{else}}
-          <form action="/followships" method="POST" class="text-right">
+          <form action="/followships" method="POST">
             <input type="text" name="id" value="{{showedUser.id}}" hidden>
-            <button type="submit" class="btn btn-primary">Follow</button>
+            <button type="submit" class="btn btn-outline-primary">Follow</button>
           </form>
           {{/if}}
         </div>
