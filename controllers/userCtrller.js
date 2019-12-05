@@ -119,6 +119,7 @@ module.exports = {
 
   getFollowings: async (req, res) => {
     try {
+      const user = helpers.getUser(req)
       const showedUser = await User.findByPk(req.params.id, {
         include: [
           // tweets 只用做記數，僅包入 id 來輕量化
@@ -130,10 +131,9 @@ module.exports = {
       })
 
       // 製作頁面資料
+      showedUser.isSelf = (user.id === showedUser.id)
+      showedUser.isFollowing = user.Followings.some(following => following.id === showedUser.id)
       const followings = showedUser.Followings
-      followings.forEach(following => {
-        following.isFollowing = true
-      })
 
       res.render('userFollowings', { css: 'userFollowings', showedUser, followings })
 
