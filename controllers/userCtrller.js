@@ -92,7 +92,7 @@ module.exports = {
   },
 
   getUserTweets: async (req, res) => {
-    const reqUser = helpers.getUser(req)
+    const user = helpers.getUser(req)
     try {
       const showedUser = await User.findByPk(req.params.id, {
         include: [
@@ -108,7 +108,7 @@ module.exports = {
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
-        tweet.isLiked = tweet.LikedUsers.some(likedUser => reqUser.id === likedUser.id)
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => user.id === likedUser.id)
       });
 
       return res.render('user', { showedUser, tweets })
@@ -120,7 +120,7 @@ module.exports = {
   },
 
   getLikes: async (req, res) => {
-    const reqUser = helpers.getUser(req)
+    const user = helpers.getUser(req)
     try {
       const showedUser = await User.findByPk(req.params.id, {
         include: [
@@ -131,8 +131,8 @@ module.exports = {
       })
 
       // 頁面 user 資訊
-      showedUser.isFollowing = reqUser.Followings.some(following => showedUser.id === following.id)
-      showedUser.isSelf = (showedUser.id === reqUser.id)
+      showedUser.isFollowing = user.Followings.some(following => showedUser.id === following.id)
+      showedUser.isSelf = (showedUser.id === user.id)
 
       // 頁面 like 推文資訊
       const showedTweet = showedUser.LikedTweets
@@ -141,7 +141,7 @@ module.exports = {
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
-        tweet.isLiked = tweet.LikedUsers.some(likedUser => reqUser.id === likedUser.id)
+        tweet.isLiked = tweet.LikedUsers.some(likedUser => user.id === likedUser.id)
       })
 
       return res.render('userLikes', { showedUser, showedTweet })
