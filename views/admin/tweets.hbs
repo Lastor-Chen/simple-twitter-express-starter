@@ -1,13 +1,18 @@
 <div class="mt-5">
-  <div class="my-2">
-    <a href='/admin/tweets'>Tweets</a> |
-    <a href='/admin/users'>Users</a>
-  </div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="/admin/tweets">Tweets</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/users">Users</a>
+    </li>
+  </ul>
   <table data-toggle="table" data-search="true" data-show-columns="true">
     <thead>
       <tr>
         <th class="text-center">User</th>
-        <th class="text-center">Tweet</th>
+        <th class="text-center">Tweet ID</th>
+        <th class="text-center">Description</th>
         <th class="text-center">Time</th>
         <th class="text-center">Detail</th>
         <th class="text-center">Delete</th>
@@ -21,7 +26,8 @@
               <img src="{{User.avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 50px">
             </a>
           </td>
-          <td>{{shortenDescript}}
+          <td>{{id}}</td>
+          <td>{{shortenDescript}}</td>
           <td>{{date}} {{time}}</td>
           <td>
             <!-- Reply Button trigger modal -->
