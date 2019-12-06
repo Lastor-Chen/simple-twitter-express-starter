@@ -158,7 +158,7 @@ module.exports = {
 
       // 更新 user profile
       const newUser = await User.findByPk(targetId)
-      newUser.update(input)
+      await newUser.update(input)
 
       req.flash('success', '已更新使用者資訊')
       res.redirect(`/users/${user.id}/tweets`)
