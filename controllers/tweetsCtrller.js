@@ -41,11 +41,11 @@ module.exports = {
     try {
       const user = helpers.getUser(req)
       const showedTweet = await Tweet.findByPk(req.params.tweet_id, {
-        include: [User, 'LikedUsers',
-          {
-            model: Reply, include: [User],
-            order: [[Reply, 'id', 'DESC']]
-          }],
+        include: [
+          User, 'LikedUsers',
+          { model: Reply, include: User }
+        ],
+        order: [['Replies', 'id', 'ASC']]
       })
 
       const showedUser = await User.findByPk(showedTweet.UserId, {
@@ -54,7 +54,7 @@ module.exports = {
 
       // 頁面 Tweets 資訊
       showedTweet.date = showedTweet.createdAt.toLocaleDateString()
-      showedTweet.time = showedTweet.createdAt.toLocaleTimeString().slice(0, -3)
+      showedTweet.time = showedTweet.createdAt.toLocaleTimeString().slice(0, -6)
       showedTweet.countReplies = showedTweet.Replies.length
       showedTweet.countLikes = showedTweet.LikedUsers.length
       showedTweet.isLiked = showedTweet.LikedUsers.some(likedUser => user.id === likedUser.id)
@@ -63,7 +63,7 @@ module.exports = {
       const replies = showedTweet.Replies
       replies.forEach(reply => {
         reply.date = reply.createdAt.toLocaleDateString()
-        reply.time = reply.createdAt.toLocaleTimeString().slice(0, -3)
+        reply.time = reply.createdAt.toLocaleTimeString().slice(0, -6)
       })
 
       // 頁面 User 資訊
