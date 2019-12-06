@@ -72,16 +72,14 @@ module.exports = {
 
   unfollow: async (req, res) => {
     const user = helpers.getUser(req)
-
     try {
-      const followship = await Followship.findOne({
+      await Followship.destroy({
         where: {
           followerId: user.id,
-          followingId: req.params.followingId
+          followingId: +req.params.followingId
         }
       })
 
-      await followship.destroy()
       res.redirect('back')
 
     } catch (err) {
@@ -133,7 +131,12 @@ module.exports = {
       // 製作頁面資料
       showedUser.isSelf = (user.id === showedUser.id)
       showedUser.isFollowing = user.Followings.some(following => following.id === showedUser.id)
+      
       const followings = showedUser.Followings
+      followings.forEach(following => {
+        following.isFollowing = user.Followings.some(selfFollowing => selfFollowing.id === following.id)
+        following.isSelf = (following.id === user.id)
+      })
 
       res.render('userFollowings', { css: 'userFollowings', showedUser, followings })
 
