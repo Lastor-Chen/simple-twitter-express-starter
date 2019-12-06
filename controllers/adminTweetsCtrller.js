@@ -30,14 +30,14 @@ module.exports = {
 
   deleteTweets: async (req, res) => {
     try {
-      tweet = await Tweet.findByPk(req.params.id)
+      const tweet = await Tweet.findByPk(req.params.id)
 
       if (!tweet) {
         req.flash('error', '沒有該則推文')
         return res.redirect(`/admin/tweets`)
       }
 
-      tweet.destroy()
+      await tweet.destroy()
 
       req.flash('success', '已刪除推文')
       res.redirect(`/admin/tweets`)
