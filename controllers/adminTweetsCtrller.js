@@ -28,7 +28,7 @@ module.exports = {
     }
   },
 
-  deleteTweets: async (req, res) => {
+  deleteTweet: async (req, res) => {
     try {
       const tweet = await Tweet.findByPk(req.params.id)
 

@@ -20,7 +20,7 @@ module.exports = (app, passport) => {
   app.use('/admin', isAdminAuth)
   app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
   app.get('/admin/tweets', adminTweetsCtrller.getTweets)
-  app.delete('/admin/tweets/:id', adminTweetsCtrller.deleteTweets)
+  app.delete('/admin/tweets/:id', adminTweetsCtrller.deleteTweet)
 
   app.get('/signup', userCtrller.signUpPage)
   app.post('/signup', userCtrller.signUp)
