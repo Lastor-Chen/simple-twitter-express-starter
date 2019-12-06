@@ -1,0 +1,82 @@
+<div class="row mt-5 no-gutters">
+  {{!-- user profile --}}
+  <aside class="col-4 ">
+    <div class="row mt-3">
+      <div class="card col-8">
+        <img src="{{showedUser.avatar}}" class="card-img-top" alt="avatar">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/users/{{showedUser.id}}/tweets">{{showedUser.name}}</a>
+          </h5>
+          <p class="card-text">{{showedUser.introduction}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/tweets">Tweets {{showedUser.Tweets.length}}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/followings">Following {{showedUser.Followings.length}}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/followers">Follower {{showedUser.Followers.length}}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/users/{{showedUser.id}}/likes">Like {{showedUser.LikedTweets.length}}</a>
+          </li>
+        </ul>
+        <div class="card-body">
+          {{#if showedUser.isSelf}}
+          <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
+          {{else if showedUser.isFollowing}}
+          <form action="/followships/{{showedUser.id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-primary">Following</button>
+          </form>
+          {{else}}
+          <form action="/followships" method="POST">
+            <input type="text" name="id" value="{{showedUser.id}}" hidden>
+            <button type="submit" class="btn btn-outline-primary">Follow</button>
+          </form>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </aside>
+  {{!-- tweets --}}
+  <main class="col-8 ">
+    <h3>Like</h3>
+    {{#each showedTweet}}
+    <div class=" mt-3">
+      <article>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4 ">
+              <img src="{{this.User.avatar}}" class="card-img" alt="avatar">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="/users/{{this.User.id}}/tweets">@{{this.User.name}} ,{{this.date}},
+                    {{this.time}}</a>
+                </h5>
+                <p class="card-text">{{this.description}}</p>
+                <div class="d-flex align-items-center">
+                  <a href="/tweets/{{this.id}}/replies">Reply({{this.countReplies}})</a>
+                  {{#if isLiked}}
+                  <form action="/tweets/{{this.id}}/unlike" method="POST" class="d-inline-block">
+                    <button type="submit" class="btn btn-link">Unlike({{this.countLikes}})</button>
+                  </form>
+                  {{else}}
+                  <form action="/tweets/{{this.id}}/like" method="POST" class="d-inline-block">
+                    <button type="submit" class="btn btn-link">Like({{this.countLikes}})</button>
+                  </form>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+    {{/each}}
+  </main>
+</div>
