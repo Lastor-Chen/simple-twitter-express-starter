@@ -26,11 +26,16 @@
         </ul>
         <div class="card-body">
           {{#ifEquals showedUser.id user.id}}
-          <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
+            <a href="/users/{{showedUser.id}}/edit" class="btn btn-primary">Edit Profile</a>
+          {{else if isFollowing}}
+            <form action="/followships/{{showedUser.id}}?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-primary">Following</button>
+            </form>
           {{else}}
-          <form action="/followships" method="POST">
-            <button type="submit" class="btn btn-primary">Follow</button>
-          </form>
+            <form action="/followships" method="POST">
+              <input type="text" name="id" value="{{showedUser.id}}" hidden>
+              <button type="submit" class="btn btn-outline-primary">Follow</button>
+            </form>
           {{/ifEquals}}
         </div>
       </div>

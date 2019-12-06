@@ -18,7 +18,7 @@ module.exports = (app, passport) => {
 
   app.use('/users', isAuth)
   app.get('/users/:id', (req, res) => res.redirect(`/users/${req.params.id}/tweets`))
-  app.get('/users/:id/tweets', userCtrller.getUser)
+  app.get('/users/:id/tweets', userCtrller.getUserTweets)
   app.get('/users/:id/edit', userCtrller.editPage)
   app.post('/users/:id/edit', upload.single('image'), userCtrller.postProfile)
   
