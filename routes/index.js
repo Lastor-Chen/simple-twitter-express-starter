@@ -27,10 +27,10 @@ module.exports = (app, passport) => {
   app.get('/users/:id/edit', userCtrller.editPage)
   app.post('/users/:id/edit', upload.single('image'), userCtrller.postProfile)
 
-
   app.use('/admin', isAdminAuth)
   app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
   app.get('/admin/tweets', adminTweetsCtrller.getTweets)
+  app.delete('/admin/tweets/:id', adminTweetsCtrller.deleteTweet)
 
   app.get('/admin/users', adminUserCtrller.getUsers)
 

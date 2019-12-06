@@ -11,7 +11,7 @@ module.exports = {
     if (!helpers.ensureAuthenticated(req)) return res.redirect('/signin')
     
     // 確認用戶權限
-    if (req.user.role !== 'admin') return res.redirect('/tweets')
+    if (helpers.getUser(req).role !== 'admin') return res.redirect('/tweets')
     next()
   }
 }
