@@ -20,7 +20,9 @@
                   </h5>
                   <p class="card-text intro">{{introduction}}</p>
                   <div class="mt-auto">
-                  {{#if isFollowing}}
+                  {{#if isSelf}}
+                    {{!-- 如 follower 是自己，不顯示按鈕 --}}
+                  {{else if isFollowing}}
                     <form action="/followships/{{id}}?_method=DELETE" method="POST" class="text-right">
                       <button type="submit" class="btn btn-primary">Following</button>
                     </form>

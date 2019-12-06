@@ -193,6 +193,7 @@ module.exports = {
       const followers = showedUser.Followers
       followers.forEach(follower => {
         follower.isFollowing = user.Followings.some(following => following.id === follower.id)
+        follower.isSelf = (user.id === follower.id)
       })
 
       res.render('userFollowers', { css: 'userFollowers', showedUser, followers })
