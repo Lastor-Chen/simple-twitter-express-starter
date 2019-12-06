@@ -17,8 +17,13 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand" href="/tweets">
+  {{#if adminNavbar}}
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+  {{else}}
+    <nav class="navbar navbar-dark bg-primary sticky-top">
+  {{/if}}
+  <div class="container">
+    <a class="navbar-brand ml-1" href="/tweets">
       <i class="fab fa-twitter"></i> Twitter
     </a>
     <div>
@@ -31,10 +36,11 @@
           <a href="/users/{{user.id}}/tweets" class="text-decoration-none text-light mr-3">
             <img src={{user.avatar}} alt={{user.name}} class="rounded mx-auto d-block" style="width: 40px">
           </a>
-          <a href="/logout"><button class="btn btn-outline-light my-sm-0 mr-3">LogOut</button></a>
+          <a href="/logout"><button class="btn btn-outline-light my-sm-0">LogOut</button></a>
         {{/if}}
       </div>
     </div>
+  </div>
   </nav>
   <div class="container">
     {{!-- alert flash msg --}}

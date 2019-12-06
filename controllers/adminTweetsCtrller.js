@@ -23,7 +23,7 @@ module.exports = {
         }
       })
 
-      res.render('admin/tweets', { tweets })
+      res.render('admin/tweets', { tweets, adminNavbar: true })
 
     } catch (err) {
       console.error(err)
