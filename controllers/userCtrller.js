@@ -231,5 +231,38 @@ module.exports = {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
-  }
+  },
+
+  getFollowers: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      const showedUser = await User.findByPk(req.params.id, {
+        include: [
+          'Followers',
+          // tweets 只用做記數，僅包入 id 來輕量化
+          { model: Tweet, attributes: ['id'] },
+          { association: 'Followings', attributes: ['id'] },
+          { association: 'LikedTweets', attributes: ['id'] }
+        ],
+        // 排序 Followings 藉由 Followship 的 id (最新順)
+        order: [['Followers', Followship, 'id', 'DESC']]
+      })
+
+      // 製作頁面資料
+      showedUser.isSelf = (user.id === showedUser.id)
+      showedUser.isFollowing = user.Followings.some(following => following.id === showedUser.id)
+
+      const followers = showedUser.Followers
+      followers.forEach(follower => {
+        follower.isFollowing = user.Followings.some(following => following.id === follower.id)
+        follower.isSelf = (user.id === follower.id)
+      })
+
+      res.render('userFollowers', { css: 'userFollowers', showedUser, followers })
+
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
 }
