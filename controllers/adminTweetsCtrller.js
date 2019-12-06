@@ -1,6 +1,5 @@
 const db = require('../models')
-const Tweet = db.Tweet
-const User = db.User
+const { User, Tweet, Reply } = db
 
 const helpers = require('../_helpers')
 
@@ -10,14 +9,18 @@ module.exports = {
       const [tweets] = await Promise.all([
         Tweet.findAll({
           order: [['id', 'DESC']],
-          include: [{ all: true }]
+          include: [User, { model: Reply, order: [['id', 'ASC']] }]
         })
       ])
 
       tweets.forEach(tweet => {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
-        tweet.shortenDescript = tweet.description.slice(0, 50)
+        if (tweet.description.length > 50) {
+          tweet.shortenDescript = tweet.description.slice(0, 50) + ' ...'
+        } else {
+          tweet.shortenDescript = tweet.description
+        }
       })
 
       res.render('admin/tweets', { tweets })
