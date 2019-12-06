@@ -1,0 +1,41 @@
+<div class="mt-5">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="/admin/tweets">Tweets</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="/admin/users">Users</a>
+    </li>
+  </ul>
+  <table data-toggle="table" data-search="true" data-show-columns="true">
+    <thead>
+      <tr>
+        <th colspan="2" class="text-center">User</th>
+        <th data-width="150" rowspan="2" data-valign="middle" class="text-center">Tweet</th>
+        <th data-width="150" rowspan="2" data-valign="middle" class="text-center">Following</th>
+        <th data-width="150" rowspan="2" data-valign="middle" class="text-center">Follower</th>
+        <th data-width="150" rowspan="2" data-valign="middle" class="text-center">Like</th>
+      </tr>
+      <tr>
+        <th class="text-center">Avatar</th>
+        <th class="text-center">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr>
+          <td>
+            <a href="/users/{{id}}/tweets">
+              <img src="{{avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 50px">
+            </a>
+          </td>
+          <td><a href="/users/{{id}}/tweets" class="text-decoration-none text-dark">{{name}}</a></td>
+          <td><a href="/users/{{id}}/tweets" class="text-decoration-none text-dark">{{Tweets.length}}</a></td>
+          <td><a href="/users/{{id}}/followings" class="text-decoration-none text-dark">{{Followings.length}}</a></td>
+          <td><a href="/users/{{id}}/followers" class="text-decoration-none text-dark">{{Followers.length}}</a></td>
+          <td><a href="/users/{{id}}/likes" class="text-decoration-none text-dark">{{LikedTweets.length}}</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
