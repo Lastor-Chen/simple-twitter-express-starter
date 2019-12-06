@@ -26,7 +26,8 @@ module.exports = (app, passport) => {
   app.get('/users/:id/tweets', userCtrller.getUserTweets)
   app.get('/users/:id/edit', userCtrller.editPage)
   app.post('/users/:id/edit', upload.single('image'), userCtrller.postProfile)
-
+  app.get('/users/:id/followings', userCtrller.getFollowings)
+  
   app.use('/admin', isAdminAuth)
   app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
   app.get('/admin/tweets', adminTweetsCtrller.getTweets)

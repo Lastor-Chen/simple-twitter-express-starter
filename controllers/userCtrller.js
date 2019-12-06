@@ -75,16 +75,14 @@ module.exports = {
 
   unfollow: async (req, res) => {
     const user = helpers.getUser(req)
-
     try {
-      const followship = await Followship.findOne({
+      await Followship.destroy({
         where: {
           followerId: user.id,
-          followingId: req.params.followingId
+          followingId: +req.params.followingId
         }
       })
 
-      await followship.destroy()
       res.redirect('back')
 
     } catch (err) {
@@ -164,10 +162,40 @@ module.exports = {
 
       req.flash('success', '已更新使用者資訊')
       res.redirect(`/users/${user.id}/tweets`)
+    } catch(err) {
+      console.error(err)
+      res.status(500).json({ status: 'serverError', message: err.toString() })
+    }
+  },
+
+  getFollowings: async (req, res) => {
+    try {
+      const user = helpers.getUser(req)
+      const showedUser = await User.findByPk(req.params.id, {
+        include: [
+          // tweets 只用做記數，僅包入 id 來輕量化
+          { model: Tweet, attributes: ['id'] }, 
+          'Followings', 'Followers', 'LikedTweets'
+        ],
+        // 排序 Followings 藉由 Followship 的 id (最新順)
+        order: [['Followings', Followship, 'id', 'DESC']]
+      })
+
+      // 製作頁面資料
+      showedUser.isSelf = (user.id === showedUser.id)
+      showedUser.isFollowing = user.Followings.some(following => following.id === showedUser.id)
+      
+      const followings = showedUser.Followings
+      followings.forEach(following => {
+        following.isFollowing = user.Followings.some(selfFollowing => selfFollowing.id === following.id)
+        following.isSelf = (following.id === user.id)
+      })
+
+      res.render('userFollowings', { css: 'userFollowings', showedUser, followings })
 
     } catch (err) {
       console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
-  }
+  },
 }
