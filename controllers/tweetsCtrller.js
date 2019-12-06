@@ -31,12 +31,18 @@ module.exports = {
       users.forEach(user => {
         user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
         user.isSelf = (user.id === reqUser.id)
+        user.CountFollowers = user.Followers.length
       })
+
+      // 取 Top 10 的 user ，排除 0 追隨的人
+      const TopUsers = users.filter(user => user.CountFollowers > 0)
+        .sort((a, b) => b.CountFollowers - a.CountFollowers)
+        .slice(0, 10)
 
       // POST tweet 失敗時，保留內文
       const history = req.flash('description')
 
-      res.render('tweets', { tweets, users, history })
+      res.render('tweets', { tweets, TopUsers, history })
 
     } catch (err) {
       console.error(err)
