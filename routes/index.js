@@ -15,13 +15,16 @@ module.exports = (app, passport) => {
   app.post('/tweets', tweetsCtrller.postTweet)
   app.post('/tweets/:id/like', tweetsCtrller.like)
   app.post('/tweets/:id/unlike', tweetsCtrller.unlike)
+  app.get('/tweets/:tweet_id', (req, res) => res.redirect(`/tweets/${req.params.id}/replies`))
+  app.get('/tweets/:tweet_id/replies', tweetsCtrller.getReplies)
+  app.post('/tweets/:tweet_id/replies', tweetsCtrller.postReply)
 
   app.use('/users', isAuth)
   app.get('/users/:id', (req, res) => res.redirect(`/users/${req.params.id}/tweets`))
   app.get('/users/:id/tweets', userCtrller.getUserTweets)
   app.get('/users/:id/edit', userCtrller.editPage)
   app.post('/users/:id/edit', upload.single('image'), userCtrller.postProfile)
-  
+
   app.use('/admin', isAdminAuth)
   app.get('/admin', (req, res) => res.redirect('/admin/tweets'))
   app.get('/admin/tweets', adminTweetsCtrller.getTweets)
