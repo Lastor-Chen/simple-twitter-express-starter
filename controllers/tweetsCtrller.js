@@ -21,7 +21,7 @@ module.exports = {
         tweet.date = tweet.createdAt.toLocaleDateString()
         tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
-        tweet.countLikes = tweet.Likes.length
+        tweet.countLikes = tweet.LikedUsers.length
       })
 
       users.forEach(user => {
@@ -42,15 +42,22 @@ module.exports = {
       const user = helpers.getUser(req)
       const showedTweet = await Tweet.findByPk(req.params.tweet_id, {
         include: [
-          User, 'LikedUsers',
+          'LikedUsers',
+          { model: User,  
+            include: [
+              // 僅用於計數，只包入 'id' 以輕量化
+              { model: Tweet, attributes: ['id'] },
+              { association: 'Followings', attributes: ['id'] },
+              { association: 'Followers', attributes: ['id'] },
+              { association: 'LikedTweets', attributes: ['id'] },
+            ]
+          },
           { model: Reply, include: User }
         ],
         order: [['Replies', 'id', 'ASC']]
       })
 
-      const showedUser = await User.findByPk(showedTweet.UserId, {
-        include: [Tweet, 'Followings', 'Followers', 'LikedTweets']
-      })
+      const showedUser = showedTweet.User
 
       // 頁面 Tweets 資訊
       showedTweet.date = showedTweet.createdAt.toLocaleDateString()
