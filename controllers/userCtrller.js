@@ -91,7 +91,7 @@ module.exports = {
     }
   },
 
-  getUser: async (req, res) => {
+  getUserTweets: async (req, res) => {
     const reqUser = helpers.getUser(req)
     try {
       const showedUser = await User.findByPk(req.params.id, {
