@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "burger_twitter",
   "version": "1.0.0",
-  "description": "",
+  "description": "ac_sample_twitter",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test mocha test/*/*.js --exit --recursive --timeout 5000",
     "test:win": "SET NODE_ENV=test&& mocha test/*/*.js --exit --recursive --timeout 5000"
   },
-  "author": "",
+  "author": "TomatoSoup + Wendy + Lastor",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
