@@ -105,7 +105,7 @@ module.exports = {
       const tweets = showedUser.Tweets
       tweets.forEach(tweet => {
         tweet.date = tweet.createdAt.toLocaleDateString()
-        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
+        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
         tweet.isLiked = tweet.LikedUsers.some(likedUser => reqUser.id === likedUser.id)
@@ -138,7 +138,7 @@ module.exports = {
       const showedTweet = showedUser.LikedTweets
       showedTweet.forEach(tweet => {
         tweet.date = tweet.createdAt.toLocaleDateString()
-        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -3)
+        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
         tweet.isLiked = tweet.LikedUsers.some(likedUser => reqUser.id === likedUser.id)
