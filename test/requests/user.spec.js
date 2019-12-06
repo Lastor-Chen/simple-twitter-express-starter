@@ -206,12 +206,12 @@ describe('# user request', () => {
       })
       it('followers list ordered by desc', (done) => {
         request(app)
-          .get('/users/1/followings')
+          .get('/users/1/followers')
           .set('Accept', 'application/json')
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
-            res.text.indexOf('User3').should.above(res.text.indexOf('User2'))
+            res.text.indexOf('User2').should.above(res.text.indexOf('User3'))
             return done();
           });
       })
