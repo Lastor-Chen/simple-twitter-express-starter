@@ -189,7 +189,11 @@ module.exports = {
       // 製作頁面資料
       showedUser.isSelf = (user.id === showedUser.id)
       showedUser.isFollowing = user.Followings.some(following => following.id === showedUser.id)
+
       const followers = showedUser.Followers
+      followers.forEach(follower => {
+        follower.isFollowing = user.Followings.some(following => following.id === follower.id)
+      })
 
       res.render('userFollowers', { css: 'userFollowers', showedUser, followers })
 
