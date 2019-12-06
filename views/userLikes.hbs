@@ -61,9 +61,15 @@
                 <p class="card-text">{{this.description}}</p>
                 <div class="d-flex align-items-center">
                   <a href="/tweets/{{this.id}}/replies">Reply({{this.countReplies}})</a>
+                  {{#if isLiked}}
                   <form action="/tweets/{{this.id}}/unlike" method="POST" class="d-inline-block">
                     <button type="submit" class="btn btn-link">Unlike({{this.countLikes}})</button>
                   </form>
+                  {{else}}
+                  <form action="/tweets/{{this.id}}/like" method="POST" class="d-inline-block">
+                    <button type="submit" class="btn btn-link">Like({{this.countLikes}})</button>
+                  </form>
+                  {{/if}}
                 </div>
               </div>
             </div>
