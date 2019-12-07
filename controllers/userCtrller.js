@@ -29,7 +29,7 @@ module.exports = {
       res.redirect('/signin')
 
     } catch (err) {
-      console.error(err.toString())
+      console.error(err)
       res.status(500).json({ status: 'serverError', message: err.toString() })
     }
   },
