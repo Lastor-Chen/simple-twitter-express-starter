@@ -38,13 +38,12 @@ module.exports = {
         user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
         user.isSelf = (user.id === reqUser.id)
         user.CountFollowers = user.Followers.length
-        user.introduction = user.introduction.substring(0, 45)
       })
 
       // POST tweet 失敗時，保留內文
       const history = req.flash('description')
 
-      res.render('tweets', { tweets, topUsers, history })
+      res.render('tweets', { css: 'tweets', tweets, topUsers, history })
 
     } catch (err) {
       console.error(err)
@@ -157,7 +156,10 @@ module.exports = {
       showedUser.isFollowing = user.Followings.some(following => showedUser.id === following.id)
       showedUser.isSelf = (showedUser.id === user.id)
 
-      res.render('userReplies', { showedTweet, showedUser, replies })
+      // POST reply 失敗時，保留內文
+      const history = req.flash('comment')
+
+      res.render('userReplies', { showedTweet, showedUser, replies, history })
 
     } catch (err) {
       console.error(err)
@@ -168,25 +170,28 @@ module.exports = {
   postReply: async (req, res) => {
     try {
       const user = helpers.getUser(req)
+      const { comment, TweetId } = req.body
+
       // 如內容空白將會產生警告
-      if (!req.body.comment) {
+      if (!comment) {
         req.flash('error', '請填寫回覆內容')
         return res.redirect('back')
       }
       // 內容超過 140 字會產生警告
-      if (req.body.comment.length > 140) {
-        req.flash('error', '內容超過 140 字')
+      if (comment.length > 140) {
+        req.flash('error', '不得超過 140 字')
+        req.flash('comment', comment)
         return res.redirect('back')
       }
 
       await Reply.create({
         UserId: user.id,
-        TweetId: req.body.TweetId,
-        comment: req.body.comment
+        TweetId: TweetId,
+        comment: comment
       })
 
       req.flash('success', '發送成功！')
-      res.redirect(`/tweets/${req.body.TweetId}/replies`)
+      res.redirect(`/tweets/${TweetId}/replies`)
 
     } catch (err) {
       console.error(err)

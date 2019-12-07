@@ -9,7 +9,9 @@
       <div class="card mb-3">
         <div class="row no-gutters">
           <div class="col-md-4 ">
-            <img src="{{showedUser.avatar}}" class="card-img" alt="avatar">
+            <a href="/users/{{showedUser.id}}/tweets">
+              <img src="{{showedUser.avatar}}" class="card-img" alt="avatar">
+            </a>
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -46,7 +48,9 @@
         <div class="card mb-3">
           <div class="row no-gutters">
             <div class="col-md-4 ">
-              <img src="{{this.User.avatar}}" class="card-img" alt="avatar">
+              <a href="/users/{{this.UserId}}/tweets">
+                <img src="{{this.User.avatar}}" class="card-img" alt="avatar">
+              </a>
             </div>
             <div class="col-md-8">
               <div class="card-body">
@@ -66,7 +70,7 @@
   <section>
     <form action="/tweets/{{showedTweet.id}}/replies" method="POST">
       <div class="form-group">
-        <textarea class="form-control" name="comment" id="comment" rows="4"></textarea>
+        <textarea class="form-control" name="comment" id="comment" rows="4" required>{{history}}</textarea>
       </div>
       <input type="hidden" name="TweetId" value="{{showedTweet.id}}">
       <div class="text-right">
