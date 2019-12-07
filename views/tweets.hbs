@@ -23,7 +23,8 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{User.id}}/tweets">@{{User.name}}, {{date}}, {{time}}</a>
+                  <a href="/users/{{User.id}}/tweets">@{{User.name}}</a>
+                  <small class="text-muted" title="{{date}}">{{time}}</small>
                 </h5>
                 <p class="card-text">{{description}}</p>
                 <div class="d-flex align-items-center">

@@ -14,8 +14,8 @@
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">
-                <a href="/users/{{showedUser.id}}/tweets">@{{showedUser.name}} ,{{showedTweet.date}},
-                  {{showedTweet.time}}</a>
+                <a href="/users/{{showedUser.id}}/tweets">@{{showedUser.name}}</a>
+                <small class="text-muted" title="{{showedTweet.date}}">{{showedTweet.time}}</small>
               </h5>
               <p class="card-text">{{showedTweet.description}}</p>
               <div class="d-flex align-items-center">
@@ -51,7 +51,8 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{this.UserId}}/tweets">@{{this.User.name}} ,{{this.date}},{{this.time}}</a>
+                  <a href="/users/{{this.UserId}}/tweets">@{{this.User.name}}</a>
+                  <small class="text-muted" title="{{this.date}}">{{this.time}}</small>
                 </h5>
                 <p class="card-text">{{this.comment}}</p>
               </div>
