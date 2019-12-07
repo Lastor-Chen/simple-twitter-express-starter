@@ -113,9 +113,10 @@ module.exports = {
       });
 
       // Following 判斷
-      const isFollowing = user.Followings.some(following => following.id === showedUser.id)
+      showedUser.isFollowing = user.Followings.some(following => following.id === showedUser.id)
+      showedUser.isSelf = (user.id === showedUser.id)
 
-      return res.render('userTweets', { showedUser, tweets, isFollowing })
+      return res.render('userTweets', { showedUser, tweets })
     }
     catch (err) {
       console.error(err)
