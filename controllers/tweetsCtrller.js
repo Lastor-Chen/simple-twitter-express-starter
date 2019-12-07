@@ -42,7 +42,7 @@ module.exports = {
       // POST tweet 失敗時，保留內文
       const history = req.flash('description')
 
-      res.render('tweets', { css: 'index', tweets, topUsers, history })
+      res.render('tweets', { css: 'tweets', tweets, topUsers, history })
 
     } catch (err) {
       console.error(err)
