@@ -4,6 +4,7 @@ const db = require('../models')
 const { User, Tweet, Reply, Followship, Like } = db
 const imgur = require('imgur')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const moment = require('moment')
 
 // custom module
 const { checkSignUp } = require('../lib/checker.js')
@@ -106,8 +107,8 @@ module.exports = {
       // 製作頁面資料
       const tweets = showedUser.Tweets
       tweets.forEach(tweet => {
-        tweet.date = tweet.createdAt.toLocaleDateString()
-        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
+        tweet.date = moment(tweet.createdAt).format('lll')
+        tweet.time = moment(tweet.createdAt).fromNow()
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
         tweet.isLiked = tweet.LikedUsers.some(likedUser => user.id === likedUser.id)
@@ -219,8 +220,8 @@ module.exports = {
       // 頁面 like 推文資訊
       const showedTweet = showedUser.LikedTweets
       showedTweet.forEach(tweet => {
-        tweet.date = tweet.createdAt.toLocaleDateString()
-        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
+        tweet.date = moment(tweet.createdAt).format('lll')
+        tweet.time = moment(tweet.createdAt).fromNow()
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
         tweet.isLiked = tweet.LikedUsers.some(likedUser => user.id === likedUser.id)

@@ -1,5 +1,6 @@
 const db = require('../models')
 const { Tweet, User, Like, Reply } = db
+const moment = require('moment')
 
 // custom module
 const helpers = require('../_helpers.js')
@@ -21,8 +22,8 @@ module.exports = {
 
       // 頁面 Date 資訊
       tweets.forEach(tweet => {
-        tweet.date = tweet.createdAt.toLocaleDateString()
-        tweet.time = tweet.createdAt.toLocaleTimeString().slice(0, -6)
+        tweet.date = moment(tweet.createdAt).format('lll')
+        tweet.time = moment(tweet.createdAt).fromNow()
         tweet.countReplies = tweet.Replies.length
         tweet.countLikes = tweet.LikedUsers.length
         tweet.isLike = reqUser.LikedTweets.some(like => tweet.id === like.id)
@@ -139,8 +140,8 @@ module.exports = {
       const showedUser = showedTweet.User
 
       // 頁面 Tweets 資訊
-      showedTweet.date = showedTweet.createdAt.toLocaleDateString()
-      showedTweet.time = showedTweet.createdAt.toLocaleTimeString().slice(0, -6)
+      showedTweet.date = moment(showedTweet.createdAt).format('lll')
+      showedTweet.time = moment(showedTweet.createdAt).fromNow()
       showedTweet.countReplies = showedTweet.Replies.length
       showedTweet.countLikes = showedTweet.LikedUsers.length
       showedTweet.isLiked = showedTweet.LikedUsers.some(likedUser => user.id === likedUser.id)
@@ -148,8 +149,8 @@ module.exports = {
       // 頁面 Replies 資訊
       const replies = showedTweet.Replies
       replies.forEach(reply => {
-        reply.date = reply.createdAt.toLocaleDateString()
-        reply.time = reply.createdAt.toLocaleTimeString().slice(0, -6)
+        reply.date = moment(reply.createdAt).format('lll')
+        reply.time = moment(reply.createdAt).fromNow()
       })
 
       // 頁面 User 資訊

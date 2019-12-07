@@ -13,7 +13,8 @@
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">
-                <a href="/users/{{../showedUser.id}}/tweets">@{{../showedUser.name}} ,{{this.date}}, {{this.time}}</a>
+                <a href="/users/{{../showedUser.id}}/tweets">@{{../showedUser.name}}</a>
+                <small class="text-muted" title="{{this.date}}">{{this.time}}</small>
               </h5>
               <p class="card-text">{{this.description}}</p>
               <div class="d-flex align-items-center">
