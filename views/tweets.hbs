@@ -49,7 +49,7 @@
 {{!-- popular users --}}
 <aside class="col-4">
   <h3>Popular</h3>
-  {{#each users}}
+  {{#each topUsers}}
     <div class="card mb-3">
       <div class="row no-gutters">
         <div class="col-md-4">
@@ -63,8 +63,13 @@
               <a href="/users/{{id}}/tweets">@{{name}}</a>
             </h5>
             <p class="card-text">{{introduction}}</p>
+            <div class="mb-2">
+                <span class="font-weight-bold">{{CountFollowers}}</span>
+                <span class="text-muted">Followers</span>
+            </div>
             {{#if isSelf}}
-              {{!-- 對象是使用者自身，不顯示 follow 按鈕 --}}
+              {{!-- 對象是使用者自身，不顯示 follow 按鈕，但保留按鈕空間 --}}
+              <button class="btn btn-primary" style="visibility:hidden">btn</button>
             {{else if isFollowing}}
               <form action="/followships/{{id}}?_method=DELETE" method="POST" class="text-right">
                 <button type="submit" class="btn btn-primary">Following</button>

@@ -28,15 +28,22 @@ module.exports = {
         tweet.isLike = reqUser.LikedTweets.some(like => tweet.id === like.id)
       })
 
-      users.forEach(user => {
+      // 取 Top 10 的 user ，排除 0 追隨的人
+      const topUsers = users.filter(user => user.Followers.length > 0)
+        .sort((a, b) => b.Followers.length - a.Followers.length)
+        .slice(0, 10)
+
+      topUsers.forEach(user => {
         user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
         user.isSelf = (user.id === reqUser.id)
+        user.CountFollowers = user.Followers.length
+        user.introduction = user.introduction.substring(0, 45)
       })
 
       // POST tweet 失敗時，保留內文
       const history = req.flash('description')
 
-      res.render('tweets', { tweets, users, history })
+      res.render('tweets', { tweets, topUsers, history })
 
     } catch (err) {
       console.error(err)
