@@ -27,7 +27,6 @@ module.exports = {
           reply.time = moment(reply.createdAt).fromNow(false)
         })
       })
-      console.log(tweets[1].Replies[0])
 
       res.render('admin/tweets', { tweets, adminNavbar: true })
 
