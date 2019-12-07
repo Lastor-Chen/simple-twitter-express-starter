@@ -31,11 +31,15 @@
                     <a href="/tweets/{{id}}/replies">Reply({{countReplies}})</a>
                     {{#if isLike}}
                       <form action="/tweets/{{id}}/unlike" method="POST" class="d-inline-block">
-                        <button type="submit" class="btn btn-link">Unlike({{countLikes}})</button>
+                        <button type="submit" class="btn btn-link btn-fas">
+                          <i class="fas fa-heart"></i>   ({{countLikes}})
+                        </button>
                       </form>
                     {{else}}
                       <form action="/tweets/{{id}}/like" method="POST" class="d-inline-block">
-                        <button type="submit" class="btn btn-link">Like({{countLikes}})</button>
+                        <button type="submit" class="btn btn-link btn-far">
+                          <i class="far fa-heart"></i>   ({{countLikes}})
+                        </button>
                       </form>
                     {{/if}}
                   </div>
