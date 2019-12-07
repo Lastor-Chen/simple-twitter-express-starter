@@ -1,5 +1,7 @@
 <div class="card">
-  <img src="{{showedUser.avatar}}" class="card-img-top" alt="avatar">
+  <a href="/users/{{showedUser.id}}/tweets">
+    <img src="{{showedUser.avatar}}" class="card-img-top" alt="avatar">
+  </a>
   <div class="card-body">
     <h5 class="card-title text-center">
       <a href="/users/{{showedUser.id}}/tweets">{{showedUser.name}}</a>
