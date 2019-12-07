@@ -32,7 +32,7 @@ module.exports = {
         user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
         user.isSelf = (user.id === reqUser.id)
         user.CountFollowers = user.Followers.length
-        user.introduction = user.introduction.substring ( 0 , 45 )
+        user.introduction = user.introduction.substring(0, 45)
       })
 
       // 取 Top 10 的 user ，排除 0 追隨的人

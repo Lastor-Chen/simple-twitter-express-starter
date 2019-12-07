@@ -22,6 +22,7 @@ module.exports = {
       if (error) return res.render('signup', { error, input })
 
       input.avatar = 'https://i.imgur.com/Dg08MC8.png'
+      input.introduction = ''
       input.password = bcrypt.hashSync(input.password, 10)
       await User.create(input)
 
