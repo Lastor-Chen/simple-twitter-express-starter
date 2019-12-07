@@ -1,46 +1,41 @@
-<div class="row my-5">
-  <aside class="col-5 col-md-3">
-    {{> userProfile}}
-  </aside>
-  {{!-- followings --}}
-  <main class="col-7 col-md-9">
-    <h3>Following</h3>
-    <div class="row">
-      {{#each followings}}
-        <article class="col-12 col-md-6 mb-4">
-          <div class="card h-100">
-            <div class="row no-gutters h-100">
-              <div class="col-md-4">
-                <img src="{{avatar}}" class="card-img" alt="avatar">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body h-100 d-flex flex-column">
-                  <h5 class="card-title">
-                    <a href="/users/{{id}}/tweets">@{{name}}</a>
-                  </h5>
-                  <p class="card-text intro">{{introduction}}</p>
-                  <div class="mt-auto">
-                  {{#if isSelf}}
-                    {{!-- 對象為自己時，不顯示 follow 按鈕 --}}
-                  {{else if isFollowing}}
-                    <form action="/followships/{{id}}?_method=DELETE" method="POST" class="text-right">
-                      <button type="submit" class="btn btn-primary">Following</button>
-                    </form>
-                  {{else}}
-                    <form action="/followships" method="POST" class="text-right">
-                      <input type="text" name="id" value="{{id}}" hidden>
-                      <button type="submit" class="btn btn-outline-primary">Follow</button>
-                    </form>
-                  {{/if}}
-                  </div>
+<aside class="col-5 col-md-3">
+  {{> userProfile}}
+</aside>
+<main class="col-7 col-md-9 pl-5">
+  <h3>Following</h3>
+  <div class="row">
+    {{#each followings}}
+      <article class="col-12 col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="row no-gutters h-100">
+            <div class="col-md-4">
+              <img src="{{avatar}}" class="card-img" alt="avatar">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body h-100 d-flex flex-column">
+                <h5 class="card-title">
+                  <a href="/users/{{id}}/tweets">@{{name}}</a>
+                </h5>
+                <p class="card-text intro">{{introduction}}</p>
+                <div class="mt-auto">
+                {{#if isSelf}}
+                  {{!-- 對象為自己時，不顯示 follow 按鈕 --}}
+                {{else if isFollowing}}
+                  <form action="/followships/{{id}}?_method=DELETE" method="POST" class="text-right">
+                    <button type="submit" class="btn btn-primary">Following</button>
+                  </form>
+                {{else}}
+                  <form action="/followships" method="POST" class="text-right">
+                    <input type="text" name="id" value="{{id}}" hidden>
+                    <button type="submit" class="btn btn-outline-primary">Follow</button>
+                  </form>
+                {{/if}}
                 </div>
               </div>
             </div>
           </div>
-        </article>
-      {{/each}}
-    </div>
-  </main>
-</div>
-<br>
-<br>
+        </div>
+      </article>
+    {{/each}}
+  </div>
+</main>
