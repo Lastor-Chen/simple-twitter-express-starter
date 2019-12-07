@@ -37,13 +37,12 @@ module.exports = {
         user.isFollowing = reqUser.Followings.some(following => user.id === following.id)
         user.isSelf = (user.id === reqUser.id)
         user.CountFollowers = user.Followers.length
-        user.introduction = user.introduction.substring(0, 45)
       })
 
       // POST tweet 失敗時，保留內文
       const history = req.flash('description')
 
-      res.render('tweets', { tweets, topUsers, history })
+      res.render('tweets', { css: 'index', tweets, topUsers, history })
 
     } catch (err) {
       console.error(err)
