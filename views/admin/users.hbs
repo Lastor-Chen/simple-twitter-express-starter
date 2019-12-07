@@ -26,14 +26,19 @@
         <tr>
           <td>
             <a href="/users/{{id}}/tweets">
-              <img src="{{avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 50px">
+              <img src="{{avatar}}" title="{{name}}" class="img-fluid rounded mx-auto d-block" alt="avatar"
+                style="width: 50px">
             </a>
           </td>
-          <td><a href="/users/{{id}}/tweets" class="text-decoration-none text-dark">{{name}}</a></td>
-          <td><a href="/users/{{id}}/tweets" class="text-decoration-none text-dark">{{Tweets.length}}</a></td>
-          <td><a href="/users/{{id}}/followings" class="text-decoration-none text-dark">{{Followings.length}}</a></td>
-          <td><a href="/users/{{id}}/followers" class="text-decoration-none text-dark">{{Followers.length}}</a></td>
-          <td><a href="/users/{{id}}/likes" class="text-decoration-none text-dark">{{LikedTweets.length}}</a></td>
+          <td><a href="/users/{{id}}/tweets" class="text-decoration-none text-dark d-block">{{name}}</a></td>
+          <td><a href="/users/{{id}}/tweets" class="text-decoration-none text-dark d-block py-3">{{Tweets.length}}</a>
+          </td>
+          <td><a href="/users/{{id}}/followings"
+              class="text-decoration-none text-dark d-block py-3">{{Followings.length}}</a></td>
+          <td><a href="/users/{{id}}/followers"
+              class="text-decoration-none text-dark d-block py-3">{{Followers.length}}</a></td>
+          <td><a href="/users/{{id}}/likes"
+              class="text-decoration-none text-dark d-block py-3">{{LikedTweets.length}}</a></td>
         </tr>
       {{/each}}
     </tbody>
