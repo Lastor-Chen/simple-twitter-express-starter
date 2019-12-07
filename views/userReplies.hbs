@@ -65,7 +65,7 @@
   <section>
     <form action="/tweets/{{showedTweet.id}}/replies" method="POST">
       <div class="form-group">
-        <textarea class="form-control" name="comment" id="comment" rows="4" required></textarea>
+        <textarea class="form-control" name="comment" id="comment" rows="4" required>{{history}}</textarea>
       </div>
       <input type="hidden" name="TweetId" value="{{showedTweet.id}}">
       <div class="text-right">
