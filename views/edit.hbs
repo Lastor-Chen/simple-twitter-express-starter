@@ -1,30 +1,32 @@
-<form action="/users/{{user.id}}/edit" method="POST" enctype="multipart/form-data" class="mt-5">
-  <div class="row mt-4">
-    <div class="col-3">
-      <img src={{user.avatar}} class="card-img" alt="avatar">
-      <div class="form-group mt-2">
-        <label for="image">Avatar</label>
-        <input type="file" class="form-control-file" id="image" name="image">
+<div class="col-12">
+  <form action="/users/{{user.id}}/edit" method="POST" enctype="multipart/form-data">
+    <div class="row mt-4">
+      <div class="col-3">
+        <img src={{user.avatar}} class="card-img" alt="avatar">
+        <div class="form-group mt-2">
+          <label for="image">Avatar</label>
+          <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="form-label-group">
+          <label for="inputName">
+            <span>Name</span>
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" name="name" class="form-control" placeholder="Name" value="{{user.name}}"
+            autocomplete="username" required>
+        </div>
+        <div class="form-group mt-5">
+          <label for="introduction">Introduction</label>
+          <textarea class="form-control rounded" name="introduction" rows="5">{{user.introduction}}</textarea>
+        </div>
+        <div>
+        </div>
+        <div class="d-flex flex-row-reverse">
+          <button class="btn btn-lg btn-primary" type="submit">Update</button>
+        </div>
       </div>
     </div>
-    <div class="col-8">
-      <div class="form-label-group">
-        <label for="inputName">
-          <span>Name</span>
-          <span class="text-danger">*</span>
-        </label>
-        <input type="text" name="name" class="form-control" placeholder="Name" value="{{user.name}}"
-          autocomplete="username" required>
-      </div>
-      <div class="form-group mt-5">
-        <label for="introduction">Introduction</label>
-        <textarea class="form-control rounded" name="introduction" rows="5">{{user.introduction}}</textarea>
-      </div>
-      <div>
-      </div>
-      <div class="d-flex flex-row-reverse">
-        <button class="btn btn-lg btn-primary" type="submit">Update</button>
-      </div>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
