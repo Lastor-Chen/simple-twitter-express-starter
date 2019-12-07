@@ -4,3 +4,21 @@
   left: 0;
   width: 100%;
 }
+
+.btn-fas {
+  color:rgb(224, 36, 94);
+}
+
+.btn-fas:hover, .btn-far:hover {
+  color:rgb(224, 36, 94);
+  text-decoration:none;
+}
+
+.btn-fas:hover .fas, .btn-far:hover .far {
+  color:rgb(224, 36, 94);
+  border-radius:2rem;
+  background-color: rgb(224, 36, 94, 0.2);
+  box-shadow: 0px -2px 0px 5px rgba(224, 36, 94, 0.2);
+  line-height: 1rem;
+  transition-duration:100ms;
+}

@@ -22,11 +22,13 @@
                 <a href="/tweets/{{showedTweet.id}}/replies">Reply({{showedTweet.countReplies}})</a>
                 {{#if showedTweet.isLiked}}
                   <form action="/tweets/{{showedTweet.id}}/unlike" method="POST" class="d-inline-block">
-                    <button type="submit" class="btn btn-link">Unlike({{showedTweet.countLikes}})</button>
+                    <button type="submit" class="btn btn-link btn-fas"><i class="fas fa-heart"></i>   ({{showedTweet.countLikes}})
+                    </button>
                   </form>
                 {{else}}
                   <form action="/tweets/{{showedTweet.id}}/like" method="POST" class="d-inline-block">
-                    <button type="submit" class="btn btn-link">Like({{showedTweet.countLikes}})</button>
+                    <button type="submit" class="btn btn-link btn-far"><i class="far fa-heart"></i>   ({{showedTweet.countLikes}})
+                    </button>
                   </form>
                 {{/if}}
               </div>
