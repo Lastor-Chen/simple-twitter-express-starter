@@ -23,12 +23,13 @@
         <tr>
           <td>
             <a href="/users/{{User.id}}/tweets">
-              <img src="{{User.avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 50px">
+              <img src="{{User.avatar}}" title="{{User.name}}" class="img-fluid rounded mx-auto d-block" alt="avatar"
+                style="width: 50px">
             </a>
           </td>
           <td>{{id}}</td>
           <td>{{shortenDescript}}</td>
-          <td>{{date}} {{time}}</td>
+          <td title="{{this.date}}">{{time}}</td>
           <td>
             <!-- Reply Button trigger modal -->
             <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
@@ -51,19 +52,39 @@
             <div class="modal-content">
               <div class="modal-header d-flex align-items-center">
                 <a href="/users/{{User.id}}/tweets">
-                  <img src="{{User.avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 50px">
+                  <img src="{{User.avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar" style="width: 60px">
                 </a>
-                <h5 class="ml-2">{{User.name}}</h5>
+                <div class="md-1">
+                  <a href="/users/{{User.id}}/tweets" class="text-dark">
+                    <h5 class="ml-2">{{User.name}}</h5>
+                  </a>
+                  <h6 class="ml-2" title="{{this.date}}">{{this.time}}</h6>
+                </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title"><i class="fas fa-quote-left"></i>
-                  {{description}} <i class="fas fa-quote-right"></i></h5>
-                </br>
+                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title">
+                  {{description}} </h5>
+                <hr style="border-top: 3px double #e8e8e8;">
                 {{#each this.Replies}}
-                  <p><i class="fas fa-angle-right"></i> {{this.comment}}</p>
+                  <div class="ml-3">
+                    <div class="row ml-1">
+                      <a href="/users/{{User.id}}/tweets">
+                        <img src="{{User.avatar}}" class="img-fluid rounded mx-auto d-block" alt="avatar"
+                          style="width: 50px">
+                      </a>
+                      <div>
+                        <a href="/users/{{User.id}}/tweets" class="text-dark">
+                          <h5 class="ml-2">{{User.name}}</h5>
+                        </a>
+                        <h6 class="ml-2" title="{{this.date}}">{{this.time}}</h6>
+                      </div>
+                    </div>
+                    <p>{{this.comment}}</p>
+                  </div>
+                  <hr>
                 {{/each}}
               </div>
               <div class="modal-footer">
@@ -84,8 +105,8 @@
                 </button>
               </div>
               <div class="modal-body">
-                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title"><i class="fas fa-quote-left"></i>
-                  {{description}} <i class="fas fa-quote-right"></i></h5>
+                <h5 class="modal-title ml-3" id="ModalScrollable{{this.id}}Title">
+                  {{description}}</h5>
                 </br>
                 <h5 class="text-danger text-right">你真的要刪除這則推文嗎？</h5>
               </div>
