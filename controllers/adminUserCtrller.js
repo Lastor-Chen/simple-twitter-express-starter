@@ -20,7 +20,7 @@ module.exports = {
 
       users = users.sort((a, b) => b.tweetsCount - a.tweetsCount)
 
-      res.render('admin/users', { users })
+      res.render('admin/users', { users, adminNavbar: true })
 
     } catch (err) {
       console.error(err)
