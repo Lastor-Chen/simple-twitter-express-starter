@@ -15,21 +15,21 @@ module.exports = {
           email: index === 0 ? 'root@example.com' : `user${index}@example.com`,
           password: bcrypt.hashSync('12345678', 10),
           avatar: faker.image.avatar(),
-          introduction: faker.lorem.lines(3),
+          introduction: faker.lorem.lines(2),
           role: index === 0 ? 'admin' : ''
         }))
       ),
       queryInterface.bulkInsert('Tweets',
         Array.from({ length: 30 }, () => ({
           UserId: randomNum(1, 5),
-          description: faker.lorem.lines(3),
+          description: faker.lorem.lines(2),
         }))
       ),
       queryInterface.bulkInsert('Replies',
         Array.from({ length: 30 }, () => ({
           UserId: randomNum(1, 10),
           TweetId: randomNum(20, 30),
-          comment: faker.lorem.lines(3),
+          comment: faker.lorem.lines(2),
         }))
       ),
       queryInterface.bulkInsert('Likes',
