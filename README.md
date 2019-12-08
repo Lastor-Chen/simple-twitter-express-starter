@@ -88,8 +88,6 @@ $ npm install
 IMGUR_CLIENT_ID = your_client_ID
 ```
 
-<br>
-
 ### 本地啟動 App
 
 - 完成上述前置動作之後，可啟動專案。
