@@ -28,8 +28,12 @@ Alpha Camp 學期四期中專案，復刻 Twitter。
     ( user1 - user19，共 19 組)
     ```
 
+<br>
+
 ## 本地端使用 Installation
-安裝專案與依賴套件。
+
+### 安裝專案與依賴套件
+package list 請參考下方 [Dependency](#Dependency)。
 ```
 // install project
 $ git clone https://github.com/Lastor-Chen/simple-twitter-express-starter.git
@@ -38,10 +42,6 @@ $ git clone https://github.com/Lastor-Chen/simple-twitter-express-starter.git
 // install npm package
 $ npm install
 ```
-
-package list 請參考下方 [Dependency](#Dependency)。
-
-<br>
 
 ### 初始化資料庫
 1. 啟動 MySQL Server
@@ -119,6 +119,8 @@ IMGUR_CLIENT_ID = your_client_ID
     $ net stop mysql80
     ```
 
+<br>
+
 ## 單元測試
 在本地測試需修改 `config/config.json` 中，sequelize 設定。
 <pre>
@@ -177,6 +179,6 @@ $ npm install -g nodemon
 
 ## Maintainers
 build on 2019，by team 最終溫蒂蕃茄堡
-- [TomatoSoup](https://github.com/TomatoSoup0126)
 - [Lastor](https://github.com/Lastor-Chen)
+- [TomatoSoup](https://github.com/TomatoSoup0126)
 - [Wendy](https://github.com/wendyhsiao)
